@@ -12,6 +12,8 @@
 		<LangVersion>9.0</LangVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<RepositoryUrl>https://github.com/asiwjp/rockhouse-dotnet-collections</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/asiwjp/rockhouse-dotnet-collections</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
