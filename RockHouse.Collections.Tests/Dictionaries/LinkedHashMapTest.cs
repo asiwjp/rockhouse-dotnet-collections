@@ -1,0 +1,34 @@
+using RockHouse.Collections.Dictionaries;
+using System.Collections.Generic;
+using System.Text.Json;
+
+namespace RockHouse.Collections.Tests.Dictionaries
+{
+    public class LinkedHashMapTest : AbstractOrderedDictionaryTestBase
+    {
+        public override IHashMap<K, V> NewInstance<K, V>()
+        {
+            return new LinkedHashMap<K, V>();
+        }
+
+        public override IHashMap<string, int> NewInstance(int capacity)
+        {
+            return new LinkedHashMap<string, int>(capacity);
+        }
+
+        public override IHashMap<string, int> NewInstance(IEnumerable<KeyValuePair<string, int>> dictionary)
+        {
+            return new LinkedHashMap<string, int>(dictionary);
+        }
+
+        public override IHashMap<K, V> Deserialize_BySystemTextJson<K, V>(string json)
+        {
+            return JsonSerializer.Deserialize<LinkedHashMap<K, V>>(json);
+        }
+
+        public override string Serialize_BySystemTextJson<K, V>(IHashMap<K, V> dictionary)
+        {
+            return JsonSerializer.Serialize(dictionary as LinkedHashMap<K, V>);
+        }
+    }
+}
