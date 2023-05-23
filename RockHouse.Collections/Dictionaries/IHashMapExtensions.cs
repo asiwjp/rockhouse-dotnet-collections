@@ -37,25 +37,6 @@ namespace RockHouse.Collections.Dictionaries
         }
 
         /// <summary>
-        /// Stores the value associated with the specified key and returns the old value.
-        /// If the key already exists, it will be associated to the new value.
-        /// </summary>
-        /// <param name="key">Key associated with the value.</param>
-        /// <param name="value">Value associated with the specified key.</param>
-        /// <returns>The old value associated with the key is returned. If the key is not found, default(V).</returns>
-        public static V Put<K, V>(this IHashMap<K, V> map, K key, V value)
-        {
-            if (map.TryGetValue(key, out var oldValue))
-            {
-                map[key] = value;
-                return oldValue;
-            }
-
-            map.Add(key, value);
-            return oldValue;
-        }
-
-        /// <summary>
         /// Copy all elements into the collection. If duplicate keys are found, the last element is stored.
         /// </summary>
         /// <param name="src">The enumerable from which to copy.</param>

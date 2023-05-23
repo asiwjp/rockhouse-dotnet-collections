@@ -10,6 +10,18 @@ namespace RockHouse.Collections.Dictionaries
 
         protected abstract bool Update(K key, V value);
 
+        public virtual V Put(K key, V value)
+        {
+            if (this.TryGetValue(key, out var oldValue))
+            {
+                this[key] = value;
+                return oldValue;
+            }
+
+            this.Add(key, value);
+            return oldValue;
+        }
+
         #region ICollection
         public abstract int Count { get; }
 
@@ -72,7 +84,7 @@ namespace RockHouse.Collections.Dictionaries
 
 
         #region IDictionary
-        public V this[K key]
+        public virtual V this[K key]
         {
             get
             {

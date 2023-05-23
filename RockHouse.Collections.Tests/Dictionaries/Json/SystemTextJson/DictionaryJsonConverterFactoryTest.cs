@@ -16,6 +16,8 @@ namespace RockHouse.Collections.Tests.Dictionaries.Json.SystemTextJson
         [InlineData(true, typeof(LinkedHashMap<string, string>))]
         [InlineData(true, typeof(LinkedOrderedDictionary<string, string>))]
         [InlineData(true, typeof(ListOrderedDictionary<string, string>))]
+        [InlineData(true, typeof(LruDictionary<string, string>))]
+        [InlineData(true, typeof(LruMap<string, string>))]
         public void Test_CanConvert(bool expected, Type type)
         {
             var factory = new DictionaryJsonConverterFactory();

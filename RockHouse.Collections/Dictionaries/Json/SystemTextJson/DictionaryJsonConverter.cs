@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -9,29 +8,7 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
 {
     internal class DictionaryJsonConverter<K, V> : JsonConverter<IDictionary<K, V>>
     {
-        public static readonly Type[] SupportedKeyTypes = new Type[]
-        {
-            typeof(bool),
-            typeof(sbyte),
-            typeof(short),
-            typeof(int),
-            typeof(long),
-            typeof(float),
-            typeof(double),
-            typeof(byte),
-            typeof(ushort),
-            typeof(uint),
-            typeof(ulong),
-            typeof(char),
-            typeof(string),
 
-            // TODO
-            //typeof(DateTime),
-            //typeof(DateTimeOffset),
-            //typeof(Enum),
-            //typeof(Guid),
-            //typeof(Uri),
-        };
         private readonly Type _genericType;
         private readonly JsonConverter<K> _keyConverter;
         private readonly JsonConverter<string> _stringConverter;
@@ -44,10 +21,7 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
             _genericType = genericType;
             _keyType = typeof(K);
             _valueType = typeof(V);
-            if (!SupportedKeyTypes.Contains(_keyType))
-            {
-                throw new NotSupportedException($"The specified key type is not supported. type={_keyType.FullName}");
-            }
+            Supported.CheckKeyType(_keyType);
 
             _keyConverter = (JsonConverter<K>)options.GetConverter(typeof(K));
             _valueConverter = (JsonConverter<V>)options.GetConverter(typeof(V));

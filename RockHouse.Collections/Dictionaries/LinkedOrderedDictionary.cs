@@ -34,6 +34,17 @@ namespace RockHouse.Collections.Dictionaries
             this.AddAll(src);
         }
 
+        protected void MoveOrderToLast(K key)
+        {
+            var node = this._dic[key].Item2;
+            if (node.Next == null)
+            {
+                return;
+            }
+            this._orderedKeys.Remove(node);
+            this._orderedKeys.AddLast(node);
+        }
+
         protected override bool Update(K key, V value)
         {
             if (!this.ContainsKey(key))
@@ -59,7 +70,7 @@ namespace RockHouse.Collections.Dictionaries
         #region IDictionary
         public override ICollection<K> Keys => new ReadOnlyCollection<K>(_orderedKeys.ToList());
 
-        public override ICollection<V> Values => new ReadOnlyCollection<V>(_orderedKeys.Select(k => this[k]).ToList());
+        public override ICollection<V> Values => new ReadOnlyCollection<V>(_orderedKeys.Select(k => _dic[k].Item1).ToList());
 
         public override void Add(K key, V value)
         {

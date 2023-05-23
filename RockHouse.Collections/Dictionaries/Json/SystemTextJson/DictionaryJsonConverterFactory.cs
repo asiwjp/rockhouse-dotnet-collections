@@ -13,7 +13,9 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
             typeof(HashMap<,>),
             typeof(LinkedHashMap<,>),
             typeof(LinkedOrderedDictionary<,>),
-            typeof(ListOrderedDictionary<,>)
+            typeof(ListOrderedDictionary<,>),
+            typeof(LruDictionary<,>),
+            typeof(LruMap<,>),
         };
 
         public override bool CanConvert(Type typeToConvert)
@@ -24,7 +26,7 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
             }
 
             Type genericType = typeToConvert.GetGenericTypeDefinition();
-            return _supportedTypes.Contains(genericType);
+            return Supported.ConvertableTypes.Contains(genericType);
         }
 
         public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
