@@ -5,11 +5,11 @@ using System.Text.Json.Serialization;
 namespace RockHouse.Collections.Dictionaries
 {
     /// <summary>
-    /// LruMap is a Dictionary for which a size limit is applied by the Lru algorithm.
+    /// LinkedHashMap is a class that has almost the same functionality as LruDictionary.
     /// </summary>
-    /// <remarks>This class is thread-safe.</remarks>
-    /// <typeparam name="K"></typeparam>
-    /// <typeparam name="V"></typeparam>
+    /// <remarks>This class is not thread-safe.</remarks>
+    /// <typeparam name="K">The type of keys.</typeparam>
+    /// <typeparam name="V">The type of values.</typeparam>
     [JsonConverter(typeof(DictionaryJsonConverterFactory))]
     public class LruMap<K, V> : LruDictionary<K, V>
     {
