@@ -66,8 +66,10 @@ namespace RockHouse.Collections.Tests.Dictionaries
             col.Add("c", 1);
             col.Add("a", 2);
 
+            col.AddAll(src);
+
             Assert.Equal("c", col.FirstKey);
-            Assert.Equal("a", col.LastKey);
+            Assert.Equal("b", col.LastKey);
         }
 
         [Fact]

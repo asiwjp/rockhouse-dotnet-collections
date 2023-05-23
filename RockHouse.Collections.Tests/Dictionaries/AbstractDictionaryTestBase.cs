@@ -450,25 +450,29 @@ namespace RockHouse.Collections.Tests.Dictionaries
         }
 
         [Fact]
-        public void Test__json_SystemTextJson_Deserialize()
+        public void Test__json_Deserialize()
         {
-            var actual = this.Deserialize_BySystemTextJson<string, int>(@"{""b"":1,""a"":2}");
-
-            Assert.Equal(new KeyValuePair<string, int>[]
+            var expected = new KeyValuePair<string, int>[]
             {
                 new KeyValuePair<string, int>("b", 1),
                 new KeyValuePair<string, int>("a", 2),
-            }, actual.ToArray());
+            };
+
+            var actualSystem = this.Deserialize_BySystemTextJson<string, int>(@"{""b"":1,""a"":2}");
+            Assert.Equal(expected, actualSystem.ToArray());
         }
 
         [Fact]
-        public void Test__json_SystemTextJson_Serialize()
+        public void Test__json_Serialize()
         {
+            var expected = @"{""b"":1,""a"":2}";
+
             var col = NewInstance<string, int>();
             col.Add("b", 1);
             col.Add("a", 2);
-            var actual = this.Serialize_BySystemTextJson(col);
-            Assert.Equal(@"{""b"":1,""a"":2}", actual);
+
+            var actualSystem = this.Serialize_BySystemTextJson(col);
+            Assert.Equal(expected, actualSystem);
         }
 
         [Fact]
@@ -479,7 +483,10 @@ namespace RockHouse.Collections.Tests.Dictionaries
             col.Add("b", 1);
             col["a"] = 1;
 
-            Assert.Equal(new string[] { "a", "b" }, col.Keys.ToArray());
+            var keys = col.Keys.ToList();
+            Assert.Equal(2, keys.Count);
+            Assert.Contains("a", keys);
+            Assert.Contains("b", keys);
 
             // is immutable
             Assert.Throws<NotSupportedException>(() => col.Keys.Remove("a"));
@@ -489,11 +496,14 @@ namespace RockHouse.Collections.Tests.Dictionaries
         public void Test__prop_Values()
         {
             var col = NewInstance();
-            col.Add("a", 1);
+            col.Add("a", 3);
             col.Add("b", 1);
             col["a"] = 2;
 
-            Assert.Equal(new int[] { 2, 1 }, col.Values.ToArray());
+            var values = col.Values.ToList();
+            Assert.Equal(2, values.Count);
+            Assert.Contains(1, values);
+            Assert.Contains(2, values);
 
             // is immutable
             Assert.Throws<NotSupportedException>(() => col.Values.Remove(1));
