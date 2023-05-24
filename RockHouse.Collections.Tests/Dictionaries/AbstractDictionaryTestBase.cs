@@ -361,6 +361,106 @@ namespace RockHouse.Collections.Tests.Dictionaries
         }
 
         [Fact]
+        public void Test__IHashMap_Get_withCallback()
+        {
+            static int ifNotFound(int key)
+            {
+                return key + 1000;
+            }
+
+            static int ifFound(int key, int old)
+            {
+                return key + old + 2000;
+            }
+
+            var col = NewInstance<int, int>();
+            col.Add(100, 1);
+
+            var actual1 = col.Get(100, ifNotFound: null, ifFound: null);
+            Assert.Equal(1, actual1);
+
+            var actual2 = col.Get(999, ifNotFound: null, ifFound: null);
+            Assert.Equal(0, actual2);
+
+            var actual3 = col.Get(100, ifNotFound: ifNotFound, ifFound: ifFound);
+            Assert.Equal(2101, actual3);
+
+            var actual4 = col.Get(999, ifNotFound: ifNotFound, ifFound: ifFound);
+            Assert.Equal(1999, actual4);
+        }
+
+        [Fact]
+        public void Test__IHashMap_Delete()
+        {
+            var col = NewInstance<int, int>();
+            col.Add(100, 1);
+
+            var actual = col.Delete(100);
+            Assert.Equal(1, actual);
+            Assert.False(col.ContainsKey(100));
+        }
+
+        [Fact]
+        public void Test__IHashMap_Delete_if_notfound()
+        {
+            var col = NewInstance<int, int>();
+            col.Add(100, 1);
+
+            var actual = col.Delete(999);
+            Assert.Equal(0, actual);
+        }
+
+        [Fact]
+        public void Test__IHashMap_Delete_nullablePrimitiveType_if_notfound()
+        {
+            var col = NewInstance<int, int?>();
+            col.Add(100, 1);
+
+            var actual = col.Delete(999);
+            Assert.Null(actual);
+        }
+
+        [Fact]
+        public void Test__IHashMap_Delete_refType_if_notfound()
+        {
+            var col = NewInstance<int, string>();
+            col.Add(100, "a");
+
+            var actual = col.Delete(999);
+            Assert.Null(actual);
+        }
+
+        [Fact]
+        public void Test__IHashMap_Delete_withCallback()
+        {
+            static int ifNotFound(int key)
+            {
+                return key + 1000;
+            }
+
+            static int ifFound(int key, int old)
+            {
+                return key + old + 2000;
+            }
+
+            var col = NewInstance<int, int>();
+            col.Add(100, 1);
+            col.Add(101, 1);
+
+            var actual1 = col.Delete(100, ifNotFound: null, ifFound: null);
+            Assert.Equal(1, actual1);
+
+            var actual2 = col.Delete(100, ifNotFound: null, ifFound: null);
+            Assert.Equal(0, actual2);
+
+            var actual3 = col.Delete(101, ifNotFound: ifNotFound, ifFound: ifFound);
+            Assert.Equal(2102, actual3);
+
+            var actual4 = col.Delete(101, ifNotFound: ifNotFound, ifFound: ifFound);
+            Assert.Equal(1101, actual4);
+        }
+
+        [Fact]
         public void Test__IHashMap_Put()
         {
             var col = NewInstance();
@@ -390,6 +490,38 @@ namespace RockHouse.Collections.Tests.Dictionaries
             var actual2 = col.Put("a", 2);
             Assert.Equal(2, col["a"]);
             Assert.Equal(1, actual2);
+        }
+
+        [Fact]
+        public void Test__IHashMap_Put_withCallback()
+        {
+            static int ifNotFound(int key)
+            {
+                return key + 1000;
+            }
+
+            static int ifFound(int key, int old)
+            {
+                return key + old + 2000;
+            }
+
+            var col = NewInstance<int, int>();
+
+            var actual1 = col.Put(100, 1, ifNotFound: null, ifFound: null);
+            Assert.Equal(1, col[100]);
+            Assert.Equal(0, actual1);
+
+            var actual2 = col.Put(100, 2, ifNotFound: null, ifFound: null);
+            Assert.Equal(2, col[100]);
+            Assert.Equal(1, actual2);
+
+            var actual3 = col.Put(200, 1, ifNotFound: ifNotFound, ifFound: ifFound);
+            Assert.Equal(1, col[200]);
+            Assert.Equal(1200, actual3);
+
+            var actual4 = col.Put(200, 2, ifNotFound: ifNotFound, ifFound: ifFound);
+            Assert.Equal(2, col[200]);
+            Assert.Equal(2201, actual4);
         }
 
         [Fact]

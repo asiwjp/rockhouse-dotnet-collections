@@ -8,7 +8,34 @@ namespace RockHouse.Collections.Dictionaries
     {
         public override bool IsEmpty => this.Count == 0;
 
-        protected abstract bool Update(K key, V value);
+        public virtual V Delete(K key)
+        {
+            if (this.TryGetValue(key, out V remvoedValue))
+            {
+                this.Remove(key);
+                return remvoedValue;
+            }
+            return default;
+        }
+
+        public virtual V Delete(K key, Func<K, V> ifNotFound = null, Func<K, V, V> ifFound = null)
+        {
+            if (this.TryGetValue(key, out V remvoedValue))
+            {
+                this.Remove(key);
+                if (ifFound != null)
+                {
+                    return ifFound(key, remvoedValue);
+                }
+                return remvoedValue;
+            }
+            
+            if (ifNotFound != null)
+            {
+                return ifNotFound(key);
+            }
+            return default;
+        }
 
         public virtual V Put(K key, V value)
         {
@@ -21,6 +48,28 @@ namespace RockHouse.Collections.Dictionaries
             this.Add(key, value);
             return oldValue;
         }
+
+        public virtual V Put(K key, V value, Func<K, V> ifNotFound = null, Func<K, V, V> ifFound = null)
+        {
+            if (this.TryGetValue(key, out var oldValue))
+            {
+                this[key] = value;
+                if (ifNotFound != null)
+                {
+                    return ifFound(key, oldValue);
+                }
+                return oldValue;
+            }
+
+            this.Add(key, value);
+            if (ifNotFound != null)
+            {
+                return ifNotFound(key);
+            }
+            return oldValue;
+        }
+
+        protected abstract bool Update(K key, V value);
 
         #region ICollection
         public abstract int Count { get; }
