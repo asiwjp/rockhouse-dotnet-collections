@@ -6,7 +6,7 @@ using Xunit;
 
 namespace RockHouse.Collections.Tests.Dictionaries.Json.SystemTextJson
 {
-    public partial class DictionaryJsonConverterTest
+    public partial class DictionaryJsonConverterTest : TestBase
     {
         private static void AssertContainsKey<K, V>(IOrderedDictionary<K, V> actual, K key)
         {
@@ -107,18 +107,25 @@ namespace RockHouse.Collections.Tests.Dictionaries.Json.SystemTextJson
         }
 
         [Fact]
+        public void Test_Read_null()
+        {
+            var json = @"null";
+            var actual = JsonSerializer.Deserialize<LinkedHashMap<string, int>>(json);
+            Assert.Null(actual);
+            var expectedStd = JsonSerializer.Deserialize<Dictionary<string, int>>(json);
+            Assert.Equal(expectedStd, actual);
+        }
+        [Fact]
         public void Test_Read_empty()
         {
             var json = @"";
             Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<LinkedHashMap<string, int>>(json));
         }
-
         [Fact]
         public void Test_Read_emptyObject()
         {
             var json = @"{}";
             var actual = JsonSerializer.Deserialize<LinkedHashMap<string, int>>(json);
-
             Assert.Empty(actual);
         }
 
@@ -137,6 +144,33 @@ namespace RockHouse.Collections.Tests.Dictionaries.Json.SystemTextJson
         public void Test_Read_malformed_jsons(string json)
         {
             Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<LinkedHashMap<string, int>>(json));
+        }
+
+        [Fact]
+        public void Test_Read_value_is_complexObject()
+        {
+            var json = @"{""key"":{""Int"":10,""IntArray"":[20],""IntList"":[30],""Str"":""str10"",""StrArray"":[""str11""],""DateTimeOffset"":""2023-01-01T00:00:00+09:00"",""Complex"":{""Int"":100,""IntArray"":null,""IntList"":null,""Str"":null,""StrArray"":null,""DateTimeOffset"":""0001-01-01T00:00:00+00:00"",""Complex"":null}}}";
+            var actuals = JsonSerializer.Deserialize<LinkedHashMap<string, ComplexType>>(json);
+
+            var expected = new LinkedHashMap<string, ComplexType>
+            {
+                {
+                    "key",
+                    new ComplexType
+                    {
+                        Int = 10,
+                        IntArray = new int[] { 20 },
+                        IntList = new List<int> { 30 },
+                        Str = "str10",
+                        StrArray = new string[] { "str11" },
+                        Complex = new ComplexType { Int = 100 },
+                        DateTimeOffset = ToDateTimeOffset("2023-01-01T00:00:00+09:00"),
+                    }
+                }
+            };
+
+            Assert.Single(actuals);
+            AssertEquals(expected["key"], actuals["key"]);
         }
 
         [Fact]
@@ -166,12 +200,50 @@ namespace RockHouse.Collections.Tests.Dictionaries.Json.SystemTextJson
         }
 
         [Fact]
+        public void Test_Write_null()
+        {
+            LinkedHashMap<string, string> col = null;
+
+            var actual = JsonSerializer.Serialize(col);
+            Assert.Equal(@"null", actual);
+        }
+
+        [Fact]
         public void Test_Write_empty()
         {
             var col = new LinkedHashMap<string, string>();
 
             var actual = JsonSerializer.Serialize(col);
             Assert.Equal(@"{}", actual);
+        }
+
+        [Fact]
+        public void Test_Write_value_is_complexObject()
+        {
+            var col = new LinkedHashMap<string, ComplexType>
+            {
+                {
+                    "key",
+                    new ComplexType
+                    {
+                        Int = 10,
+                        IntArray = new int[] { 20 },
+                        IntList = new List<int> { 30 },
+                        Str = "str10",
+                        StrArray = new string[] { "str11" },
+                        Complex = new ComplexType { Int = 100 },
+                        DateTimeOffset = ToDateTimeOffset("2023-01-01T00:00:00+09:00"),
+                    }
+                }
+            };
+
+            var expected = @"{""key"":{""Int"":10,""IntArray"":[20],""IntList"":[30],""Str"":""str10"",""StrArray"":[""str11""],""DateTimeOffset"":""2023-01-01T00:00:00+09:00"",""Complex"":{""Int"":100,""IntArray"":null,""IntList"":null,""Str"":null,""StrArray"":null,""DateTimeOffset"":""0001-01-01T00:00:00+00:00"",""Complex"":null}}}";
+            var actual = JsonSerializer.Serialize(col);
+            Assert.Equal(expected, actual);
+
+            var dic = new Dictionary<string, ComplexType>(col);
+            var stdResult = JsonSerializer.Serialize(dic);
+            Assert.Equal(stdResult, actual);
         }
 
         [Fact]
