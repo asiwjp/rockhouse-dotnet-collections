@@ -4,13 +4,20 @@ using System.Linq;
 
 namespace RockHouse.Collections.Sets
 {
+    /// <summary>
+    /// An abstract implementation of a ISet/IHashSet. 
+    /// </summary>
+    /// <typeparam name="T">The type of elements.</typeparam>
     public abstract class AbstractSet<T> : AbstractCollection, IHashSet<T>
     {
+        /// <inheritdoc/>
         public override bool IsEmpty { get => this.Count == 0; }
 
         #region ICollection
+        /// <inheritdoc/>
         public abstract int Count { get; }
 
+        /// <inheritdoc/>
         public abstract bool IsReadOnly { get; }
 
         void ICollection<T>.Add(T item)
@@ -18,10 +25,13 @@ namespace RockHouse.Collections.Sets
             this.Add(item);
         }
 
+        /// <inheritdoc/>
         public abstract void Clear();
 
+        /// <inheritdoc/>
         public abstract bool Contains(T item);
 
+        /// <inheritdoc/>
         public void CopyTo(T[] array, int arrayIndex)
         {
             if (array == null)
@@ -48,10 +58,12 @@ namespace RockHouse.Collections.Sets
             }
         }
 
+        /// <inheritdoc/>
         public abstract bool Remove(T item);
         #endregion
 
         #region IEnumerable
+        /// <inheritdoc/>
         public abstract IEnumerator<T> GetEnumerator();
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -61,8 +73,10 @@ namespace RockHouse.Collections.Sets
         #endregion
 
         #region ISet
+        /// <inheritdoc/>
         public abstract bool Add(T item);
 
+        /// <inheritdoc/>
         public void ExceptWith(IEnumerable<T> other)
         {
             if (other == null)
@@ -76,6 +90,7 @@ namespace RockHouse.Collections.Sets
             }
         }
 
+        /// <inheritdoc/>
         public void IntersectWith(IEnumerable<T> other)
         {
             if (other == null)
@@ -109,6 +124,7 @@ namespace RockHouse.Collections.Sets
             }
         }
 
+        /// <inheritdoc/>
         public bool IsProperSubsetOf(IEnumerable<T> other)
         {
             if (other == null)
@@ -143,6 +159,7 @@ namespace RockHouse.Collections.Sets
             return (contains < otherCount);
         }
 
+        /// <inheritdoc/>
         public bool IsProperSupersetOf(IEnumerable<T> other)
         {
             if (other == null)
@@ -167,6 +184,7 @@ namespace RockHouse.Collections.Sets
             return otherCount < this.Count;
         }
 
+        /// <inheritdoc/>
         public bool IsSubsetOf(IEnumerable<T> other)
         {
             if (other == null)
@@ -202,6 +220,7 @@ namespace RockHouse.Collections.Sets
             return (contains <= otherCount);
         }
 
+        /// <inheritdoc/>
         public bool IsSupersetOf(IEnumerable<T> other)
         {
             if (other == null)
@@ -224,6 +243,7 @@ namespace RockHouse.Collections.Sets
             return true;
         }
 
+        /// <inheritdoc/>
         public bool Overlaps(IEnumerable<T> other)
         {
             if (other == null)
@@ -251,6 +271,7 @@ namespace RockHouse.Collections.Sets
             return false;
         }
 
+        /// <inheritdoc/>
         public bool SetEquals(IEnumerable<T> other)
         {
             if (other == null)
@@ -282,6 +303,7 @@ namespace RockHouse.Collections.Sets
             return matched.Count == thisCount;
         }
 
+        /// <inheritdoc/>
         public void SymmetricExceptWith(IEnumerable<T> other)
         {
             if (other == null)
@@ -313,6 +335,7 @@ namespace RockHouse.Collections.Sets
             }
         }
 
+        /// <inheritdoc/>
         public void UnionWith(IEnumerable<T> other)
         {
             if (other == null)
@@ -341,6 +364,7 @@ namespace RockHouse.Collections.Sets
         #endregion
 
         #region Object
+        /// <inheritdoc/>
         public override string ToString()
         {
             return "Count=" + this.Count;

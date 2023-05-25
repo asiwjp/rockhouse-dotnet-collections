@@ -85,6 +85,7 @@ namespace RockHouse.Collections.Dictionaries
             }
         }
 
+        /// <inheritdoc/>
         protected override bool Update(K key, V value)
         {
             var result = base.Update(key, value);
@@ -96,6 +97,7 @@ namespace RockHouse.Collections.Dictionaries
         }
 
         #region IDictionary
+        /// <inheritdoc/>
         public override void Add(K key, V value)
         {
             while (!this.IsEmpty && this.Count >= this.Capacity)
@@ -105,6 +107,7 @@ namespace RockHouse.Collections.Dictionaries
             base.Add(key, value);
         }
 
+        /// <inheritdoc/>
         public override bool Remove(K key)
         {
             var result = base.TryGetValue(key, out var value);
@@ -119,6 +122,7 @@ namespace RockHouse.Collections.Dictionaries
             return result;
         }
 
+        /// <inheritdoc/>
         public override bool TryGetValue(K key, out V value)
         {
             var result = base.TryGetValue(key, out value);
@@ -131,6 +135,7 @@ namespace RockHouse.Collections.Dictionaries
         #endregion
 
         #region IDisposable
+        /// <inheritdoc/>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -146,6 +151,7 @@ namespace RockHouse.Collections.Dictionaries
             }
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(disposing: true);

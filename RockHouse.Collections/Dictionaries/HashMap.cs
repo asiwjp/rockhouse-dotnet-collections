@@ -30,6 +30,7 @@ namespace RockHouse.Collections.Dictionaries
             this.AddAll(src);
         }
 
+        /// <inheritdoc/>
         protected override bool Update(K key, V value)
         {
             if (!this.ContainsKey(key))
@@ -41,24 +42,33 @@ namespace RockHouse.Collections.Dictionaries
         }
 
         #region ICollection
+        /// <inheritdoc/>
         public override int Count => _dic.Count;
 
+        /// <inheritdoc/>
         public override bool IsReadOnly => false;
 
+        /// <inheritdoc/>
         public override void Clear() => _dic.Clear();
         #endregion
 
         #region IDictionary
+        /// <inheritdoc/>
         public override ICollection<K> Keys => _dic.Keys;
 
+        /// <inheritdoc/>
         public override ICollection<V> Values => _dic.Values;
 
+        /// <inheritdoc/>
         public override void Add(K key, V value) => _dic.Add(key, value);
 
+        /// <inheritdoc/>
         public override bool ContainsKey(K key) => _dic.ContainsKey(key);
 
+        /// <inheritdoc/>
         public override bool Remove(K key) => _dic.Remove(key);
 
+        /// <inheritdoc/>
         public override bool TryGetValue(K key, out V value) => _dic.TryGetValue(key, out value);
         #endregion
     }

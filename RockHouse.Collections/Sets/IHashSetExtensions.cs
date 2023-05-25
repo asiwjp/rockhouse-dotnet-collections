@@ -10,6 +10,7 @@ namespace RockHouse.Collections.Sets
         /// <summary>
         /// Copy all elements into the collection.
         /// </summary>
+        /// <param name="set">Collection to be extended.</param>
         /// <param name="src">The enumerable from which to copy.</param>
         /// <returns>Returns true if Set has changed, false otherwise.</returns>
         public static bool AddAll<T>(this IHashSet<T> set, IEnumerable<T> src)

@@ -14,6 +14,7 @@ namespace RockHouse.Collections.Slots
         private byte _set1 = 0;
         private byte _set2 = 0;
 
+        /// <inheritdoc/>
         public override int Count { get => _set1 + _set2; }
 
         public T1 Item1
@@ -90,6 +91,7 @@ namespace RockHouse.Collections.Slots
         #endregion
 
         #region ISlot
+        /// <inheritdoc/>
         public override bool IsFree(int index)
         {
             return index switch
@@ -100,6 +102,7 @@ namespace RockHouse.Collections.Slots
             };
         }
 
+        /// <inheritdoc/>
         public override void Set(int index, object value)
         {
             switch (index)
@@ -117,8 +120,10 @@ namespace RockHouse.Collections.Slots
         #endregion
 
         #region ITuple
+        /// <inheritdoc/>
         public override int Length => 2;
 
+        /// <inheritdoc/>
         public override object? this[int index]
         {
             get
@@ -134,6 +139,7 @@ namespace RockHouse.Collections.Slots
         #endregion
 
         #region Object
+        /// <inheritdoc/>
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
@@ -144,11 +150,13 @@ namespace RockHouse.Collections.Slots
             return false;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return HashCode.Combine(_item1, _item2);
         }
 
+        /// <inheritdoc/>
         public override string ToString() => InternalSlotUtils.ToString(this);
         #endregion
     }

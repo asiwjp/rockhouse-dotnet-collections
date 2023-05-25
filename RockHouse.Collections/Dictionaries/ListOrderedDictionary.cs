@@ -34,6 +34,7 @@ namespace RockHouse.Collections.Dictionaries
             this.AddAll(src);
         }
 
+        /// <inheritdoc/>
         protected override bool Update(K key, V value)
         {
             if (!this._dic.TryGetValue(key, out var dicValue))
@@ -46,10 +47,13 @@ namespace RockHouse.Collections.Dictionaries
         }
 
         #region ICollection
+        /// <inheritdoc/>
         public override int Count => _dic.Count;
 
+        /// <inheritdoc/>
         public override bool IsReadOnly => false;
 
+        /// <inheritdoc/>
         public override void Clear()
         {
             _dic.Clear();
@@ -58,11 +62,14 @@ namespace RockHouse.Collections.Dictionaries
         #endregion
 
         #region IDictionary
+        /// <inheritdoc/>
         public override ICollection<K> Keys => new ReadOnlyCollection<K>(this._orderedKeys.Cast<K>().ToList());
 
+        /// <inheritdoc/>
         public override ICollection<V> Values => new ReadOnlyCollection<V>(this._orderedKeys.Select(k => _dic[k].Item1).ToList());
 
 
+        /// <inheritdoc/>
         public override void Add(K key, V value)
         {
             int i = this.Count;
@@ -70,11 +77,13 @@ namespace RockHouse.Collections.Dictionaries
             _orderedKeys.Add(key);
         }
 
+        /// <inheritdoc/>
         public override bool ContainsKey(K key)
         {
             return _dic.ContainsKey(key);
         }
 
+        /// <inheritdoc/>
         public override bool Remove(K key)
         {
             if (!this._dic.TryGetValue(key, out var dicValue))
@@ -94,6 +103,7 @@ namespace RockHouse.Collections.Dictionaries
             return true;
         }
 
+        /// <inheritdoc/>
         public override bool TryGetValue(K key, out V value)
         {
             if (!this._dic.TryGetValue(key, out var dicValue))
@@ -105,6 +115,7 @@ namespace RockHouse.Collections.Dictionaries
             return true;
         }
 
+        /// <inheritdoc/>
         protected void ReIndex(int gapStart)
         {
             for (var i = gapStart; i < _orderedKeys.Count; ++i)
@@ -116,6 +127,7 @@ namespace RockHouse.Collections.Dictionaries
         #endregion
 
         #region IOrderedDictionary
+        /// <inheritdoc/>
         public override K FirstKey
         {
             get
@@ -125,6 +137,7 @@ namespace RockHouse.Collections.Dictionaries
             }
         }
 
+        /// <inheritdoc/>
         public override K LastKey
         {
             get

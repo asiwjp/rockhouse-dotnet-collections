@@ -4,10 +4,17 @@ using System.Collections.Generic;
 
 namespace RockHouse.Collections.Dictionaries
 {
+    /// <summary>
+    /// An abstract implementation of a IDictionary/IHashMap. 
+    /// </summary>
+    /// <typeparam name="K">The type of keys.</typeparam>
+    /// <typeparam name="V">The type of values.</typeparam>
     public abstract class AbstractDictionary<K, V> : AbstractCollection, IHashMap<K, V> where K : notnull
     {
+        /// <inheritdoc/>
         public override bool IsEmpty => this.Count == 0;
 
+        /// <inheritdoc/>
         public virtual V Delete(K key)
         {
             if (this.TryGetValue(key, out V remvoedValue))
@@ -18,6 +25,7 @@ namespace RockHouse.Collections.Dictionaries
             return default;
         }
 
+        /// <inheritdoc/>
         public virtual V Delete(K key, Func<K, V> ifNotFound = null, Func<K, V, V> ifFound = null)
         {
             if (this.TryGetValue(key, out V remvoedValue))
@@ -37,6 +45,7 @@ namespace RockHouse.Collections.Dictionaries
             return default;
         }
 
+        /// <inheritdoc/>
         public virtual V Put(K key, V value)
         {
             if (this.TryGetValue(key, out var oldValue))
@@ -49,6 +58,7 @@ namespace RockHouse.Collections.Dictionaries
             return oldValue;
         }
 
+        /// <inheritdoc/>
         public virtual V Put(K key, V value, Func<K, V> ifNotFound = null, Func<K, V, V> ifFound = null)
         {
             if (this.TryGetValue(key, out var oldValue))
@@ -69,11 +79,14 @@ namespace RockHouse.Collections.Dictionaries
             return oldValue;
         }
 
+        /// <inheritdoc/>
         protected abstract bool Update(K key, V value);
 
         #region ICollection
+        /// <inheritdoc/>
         public abstract int Count { get; }
 
+        /// <inheritdoc/>
         public abstract bool IsReadOnly { get; }
 
         public void Add(KeyValuePair<K, V> item)
@@ -81,8 +94,10 @@ namespace RockHouse.Collections.Dictionaries
             Add(item.Key, item.Value);
         }
 
+        /// <inheritdoc/>
         public abstract void Clear();
 
+        /// <inheritdoc/>
         public bool Contains(KeyValuePair<K, V> item)
         {
             if (!TryGetValue(item.Key, out var value))
@@ -92,6 +107,7 @@ namespace RockHouse.Collections.Dictionaries
             return object.Equals(item.Value, value);
         }
 
+        /// <inheritdoc/>
         public void CopyTo(KeyValuePair<K, V>[] array, int arrayIndex)
         {
             if (array == null)
@@ -117,6 +133,7 @@ namespace RockHouse.Collections.Dictionaries
             }
         }
 
+        /// <inheritdoc/>
         public bool Remove(KeyValuePair<K, V> item)
         {
             if (!TryGetValue(item.Key, out V value))
@@ -133,6 +150,7 @@ namespace RockHouse.Collections.Dictionaries
 
 
         #region IDictionary
+        /// <inheritdoc/>
         public virtual V this[K key]
         {
             get
@@ -152,20 +170,27 @@ namespace RockHouse.Collections.Dictionaries
             }
         }
 
+        /// <inheritdoc/>
         public abstract ICollection<K> Keys { get; }
 
+        /// <inheritdoc/>
         public abstract ICollection<V> Values { get; }
 
+        /// <inheritdoc/>
         public abstract void Add(K key, V value);
 
+        /// <inheritdoc/>
         public abstract bool ContainsKey(K key);
 
+        /// <inheritdoc/>
         public abstract bool Remove(K key);
 
+        /// <inheritdoc/>
         public abstract bool TryGetValue(K key, out V value);
         #endregion
 
         #region IEnumerable and Enumerator
+        /// <inheritdoc/>
         public IEnumerator<KeyValuePair<K, V>> GetEnumerator()
         {
             foreach (var key in Keys)
@@ -181,6 +206,7 @@ namespace RockHouse.Collections.Dictionaries
         #endregion
 
         #region Object
+        /// <inheritdoc/>
         public override string ToString()
         {
             return "Count=" + this.Count;

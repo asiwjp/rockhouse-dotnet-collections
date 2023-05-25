@@ -69,6 +69,7 @@ namespace RockHouse.Collections.Dictionaries
         /// <summary>
         /// Copy all elements into the collection. If duplicate keys are found, the last element is stored.
         /// </summary>
+        /// <param name="map">Collection to be extended.</param>
         /// <param name="src">The enumerable from which to copy.</param>
         public static void PutAll<K, V>(this IHashMap<K, V> map, IEnumerable<KeyValuePair<K, V>> src)
         {

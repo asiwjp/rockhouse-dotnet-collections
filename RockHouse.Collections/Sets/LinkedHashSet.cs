@@ -8,7 +8,7 @@ namespace RockHouse.Collections.Sets
     /// LinkedHashSet is a class that has almost the same functionality as LinkedOrderedSet.
     /// This class is intended for programmers familiar with the Java language.
     /// </summary>
-    /// <typeparam name="K">The type of elements.</typeparam>
+    /// <typeparam name="T">The type of elements.</typeparam>
     [JsonConverter(typeof(SetJsonConverterFactory))]
     public class LinkedHashSet<T> : LinkedOrderedSet<T>
     {

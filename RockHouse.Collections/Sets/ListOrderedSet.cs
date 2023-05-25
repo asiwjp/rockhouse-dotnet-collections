@@ -31,10 +31,13 @@ namespace RockHouse.Collections.Sets
         }
 
         #region ICollection
+        /// <inheritdoc/>
         public override int Count => this._dic.Count;
 
+        /// <inheritdoc/>
         public override bool IsReadOnly => false;
 
+        /// <inheritdoc/>
         public override bool Add(T item)
         {
             var keyPacket = new ValueTuple<T>(item);
@@ -49,17 +52,20 @@ namespace RockHouse.Collections.Sets
             return true;
         }
 
+        /// <inheritdoc/>
         public override void Clear()
         {
             this._list.Clear();
             this._dic.Clear();
         }
 
+        /// <inheritdoc/>
         public override bool Contains(T item)
         {
             return this._dic.ContainsKey(new ValueTuple<T>(item));
         }
 
+        /// <inheritdoc/>
         public override bool Remove(T item)
         {
             var querySlot = new ValueTuple<T>(item);
@@ -92,6 +98,7 @@ namespace RockHouse.Collections.Sets
         #endregion
 
         #region
+        /// <inheritdoc/>
         public override IEnumerator<T> GetEnumerator()
         {
             foreach (var item in this._list)
@@ -102,6 +109,7 @@ namespace RockHouse.Collections.Sets
         #endregion
 
         #region IOrderedSet
+        /// <inheritdoc/>
         public override T First
         {
             get
@@ -111,6 +119,7 @@ namespace RockHouse.Collections.Sets
             }
         }
 
+        /// <inheritdoc/>
         public override T Last
         {
             get

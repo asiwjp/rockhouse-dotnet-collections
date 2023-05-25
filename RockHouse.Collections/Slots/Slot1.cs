@@ -11,6 +11,7 @@ namespace RockHouse.Collections.Slots
         private T1 _item1;
         private byte _set1 = 0;
 
+        /// <inheritdoc/>
         public override int Count => _set1;
 
         public T1 Item1
@@ -23,20 +24,6 @@ namespace RockHouse.Collections.Slots
             {
                 _item1 = value;
                 _set1 = 1;
-            }
-        }
-
-        public override int Length => 1;
-
-        public override object? this[int index]
-        {
-            get
-            {
-                return index switch
-                {
-                    0 => _item1,
-                    _ => throw new ArgumentOutOfRangeException(nameof(index)),
-                };
             }
         }
 
@@ -78,10 +65,29 @@ namespace RockHouse.Collections.Slots
         public ValueTuple<T1> ToValueTuple() => new ValueTuple<T1>(_item1);
 
         #region IComparable
+        /// <inheritdoc/>
         public override int CompareTo(ISlot? obj) => InternalSlotUtils.CompareTo(this, obj);
         #endregion
 
         #region ISlot
+
+        /// <inheritdoc/>
+        public override int Length => 1;
+
+        /// <inheritdoc/>
+        public override object? this[int index]
+        {
+            get
+            {
+                return index switch
+                {
+                    0 => _item1,
+                    _ => throw new ArgumentOutOfRangeException(nameof(index)),
+                };
+            }
+        }
+
+        /// <inheritdoc/>
         public override bool IsFree(int index)
         {
             return index switch
@@ -91,6 +97,7 @@ namespace RockHouse.Collections.Slots
             };
         }
 
+        /// <inheritdoc/>
         public override void Set(int index, object value)
         {
             switch (index)
@@ -105,10 +112,13 @@ namespace RockHouse.Collections.Slots
         #endregion
 
         #region Object
+        /// <inheritdoc/>
         public override bool Equals(object? obj) => InternalSlotUtils.Equals(this, obj);
 
+        /// <inheritdoc/>
         public override int GetHashCode() => InternalSlotUtils.GetHashCode(this);
 
+        /// <inheritdoc/>
         public override string ToString() => InternalSlotUtils.ToString(this);
         #endregion
     }

@@ -34,6 +34,7 @@ namespace RockHouse.Collections.Dictionaries
             this.AddAll(src);
         }
 
+        /// <inheritdoc/>
         protected void MoveOrderToLast(K key)
         {
             var node = this._dic[key].Item2;
@@ -45,6 +46,7 @@ namespace RockHouse.Collections.Dictionaries
             this._orderedKeys.AddLast(node);
         }
 
+        /// <inheritdoc/>
         protected override bool Update(K key, V value)
         {
             if (!this.ContainsKey(key))
@@ -56,10 +58,13 @@ namespace RockHouse.Collections.Dictionaries
         }
 
         #region ICollection
+        /// <inheritdoc/>
         public override int Count => _dic.Count;
 
+        /// <inheritdoc/>
         public override bool IsReadOnly => false;
 
+        /// <inheritdoc/>
         public override void Clear()
         {
             _dic.Clear();
@@ -68,10 +73,13 @@ namespace RockHouse.Collections.Dictionaries
         #endregion
 
         #region IDictionary
+        /// <inheritdoc/>
         public override ICollection<K> Keys => new ReadOnlyCollection<K>(_orderedKeys.ToList());
 
+        /// <inheritdoc/>
         public override ICollection<V> Values => new ReadOnlyCollection<V>(_orderedKeys.Select(k => _dic[k].Item1).ToList());
 
+        /// <inheritdoc/>
         public override void Add(K key, V value)
         {
             var slot = new Slot<V, LinkedListNode<K>>(value, null);
@@ -79,11 +87,13 @@ namespace RockHouse.Collections.Dictionaries
             slot.Item2 = _orderedKeys.AddLast(key);
         }
 
+        /// <inheritdoc/>
         public override bool ContainsKey(K key)
         {
             return _dic.ContainsKey(key);
         }
 
+        /// <inheritdoc/>
         public override bool Remove(K key)
         {
             if (!_dic.TryGetValue(key, out var slot))
@@ -95,6 +105,7 @@ namespace RockHouse.Collections.Dictionaries
             return true;
         }
 
+        /// <inheritdoc/>
         public override bool TryGetValue(K key, out V value)
         {
             if (!_dic.TryGetValue(key, out var slot))
@@ -108,6 +119,7 @@ namespace RockHouse.Collections.Dictionaries
         #endregion
 
         #region IOrderedDictionary
+        /// <inheritdoc/>
         public override K FirstKey
         {
             get
@@ -117,6 +129,7 @@ namespace RockHouse.Collections.Dictionaries
             }
         }
 
+        /// <inheritdoc/>
         public override K LastKey
         {
             get

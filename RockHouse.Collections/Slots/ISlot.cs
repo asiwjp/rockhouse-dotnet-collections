@@ -3,6 +3,10 @@ using System.Runtime.CompilerServices;
 
 namespace RockHouse.Collections.Slots
 {
+    /// <summary>
+    /// Slot is a container class similar to ValueTuple (or Tuple) with item storage state.
+    /// ISlot is the interface that those slots should implement.
+    /// </summary>
     public interface ISlot : ITuple, IComparable<ISlot>, IContainer
     {
         /// <summary>
