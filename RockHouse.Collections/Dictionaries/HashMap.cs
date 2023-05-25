@@ -16,15 +16,26 @@ namespace RockHouse.Collections.Dictionaries
     {
         private readonly Dictionary<K, V> _dic;
 
+        /// <summary>
+        /// Constructs an empty instance.
+        /// </summary>
         public HashMap() : this(0)
         {
         }
 
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
         public HashMap(int capacity)
         {
             this._dic = new Dictionary<K, V>(capacity);
         }
 
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
         public HashMap(IEnumerable<KeyValuePair<K, V>> src) : this(0)
         {
             this.AddAll(src);

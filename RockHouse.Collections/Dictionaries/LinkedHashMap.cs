@@ -13,10 +13,21 @@ namespace RockHouse.Collections.Dictionaries
     [JsonConverter(typeof(DictionaryJsonConverterFactory))]
     public class LinkedHashMap<K, V> : LinkedOrderedDictionary<K, V>
     {
+        /// <summary>
+        /// Constructs an empty instance.
+        /// </summary>
         public LinkedHashMap() { }
 
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
         public LinkedHashMap(int capacity) : base(capacity) { }
 
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
         public LinkedHashMap(IEnumerable<KeyValuePair<K, V>> src) : base(src) { }
     }
 }

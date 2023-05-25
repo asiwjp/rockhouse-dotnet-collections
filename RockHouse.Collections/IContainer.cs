@@ -1,5 +1,8 @@
 ﻿namespace RockHouse.Collections
 {
+    /// <summary>
+    /// This interface represents a container that can store and contain elements.
+    /// </summary>
     public interface IContainer
     {
         /// <summary>

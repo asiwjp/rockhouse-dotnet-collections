@@ -89,6 +89,7 @@ namespace RockHouse.Collections.Dictionaries
         /// <inheritdoc/>
         public abstract bool IsReadOnly { get; }
 
+        /// <inheritdoc/>
         public void Add(KeyValuePair<K, V> item)
         {
             Add(item.Key, item.Value);

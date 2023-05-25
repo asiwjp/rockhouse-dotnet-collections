@@ -15,19 +15,31 @@ namespace RockHouse.Collections.Sets
     {
         private readonly Dictionary<ValueTuple<T>, int> _dic;
         private readonly List<T> _list;
+
+        /// <summary>
+        /// Constructs an empty instance.
+        /// </summary>
         public ListOrderedSet() : this(0)
         {
         }
 
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
         public ListOrderedSet(int capacity)
         {
             this._dic = new Dictionary<ValueTuple<T>, int>(capacity);
             this._list = new List<T>(capacity);
         }
 
-        public ListOrderedSet(IEnumerable<T> other) : this(0)
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
+        public ListOrderedSet(IEnumerable<T> src) : this(0)
         {
-            this.AddAll(other);
+            this.AddAll(src);
         }
 
         #region ICollection

@@ -17,6 +17,9 @@ namespace RockHouse.Collections.Slots
         /// <inheritdoc/>
         public override int Count { get => _set1 + _set2; }
 
+        /// <summary>
+        /// The first element.
+        /// </summary>
         public T1 Item1
         {
             get
@@ -30,6 +33,9 @@ namespace RockHouse.Collections.Slots
             }
         }
 
+        /// <summary>
+        /// The second element.
+        /// </summary>
         public T2 Item2
         {
             get
@@ -43,16 +49,28 @@ namespace RockHouse.Collections.Slots
             }
         }
 
+        /// <summary>
+        /// Constructs an instance with default values.
+        /// </summary>
         public Slot()
         {
         }
 
+        /// <summary>
+        /// Constructs an instance with the specified arguments.
+        /// </summary>
+        /// <param name="item1">Initial value of Item1.</param>
+        /// <param name="item2">Initial value of Item2.</param>
         public Slot(T1 item1, T2 item2)
         {
             Item1 = item1;
             Item2 = item2;
         }
 
+        /// <summary>
+        /// Constructs an instance with the specified arguments.
+        /// </summary>
+        /// <param name="other">Source of the initial value.</param>
         public Slot(Slot<T1, T2> other)
         {
             this._item1 = other._item1;
@@ -61,18 +79,30 @@ namespace RockHouse.Collections.Slots
             this._set2 = other._set2;
         }
 
+        /// <summary>
+        /// Constructs an instance with the specified arguments.
+        /// </summary>
+        /// <param name="other">Source of the initial value.</param>
         public Slot(Tuple<T1, T2> other)
         {
             Item1 = other.Item1;
             Item2 = other.Item2;
         }
 
+        /// <summary>
+        /// Constructs an instance with the specified arguments.
+        /// </summary>
+        /// <param name="other">Source of the initial value.</param>
         public Slot(ValueTuple<T1, T2> other)
         {
             Item1 = other.Item1;
             Item2 = other.Item2;
         }
 
+        /// <summary>
+        /// Remove and empty.
+        /// </summary>
+        /// <returns>ValueTuple that contains the removed items.</returns>
         public ValueTuple<T1, T2> RemoveAll()
         {
             var res = this.ToValueTuple();
@@ -82,11 +112,20 @@ namespace RockHouse.Collections.Slots
             return res;
         }
 
+        /// <summary>
+        /// Convert to Tuple.
+        /// </summary>
+        /// <returns>Converted result.</returns>
         public Tuple<T1, T2> ToTuple() => new Tuple<T1, T2>(_item1, _item2);
 
+        /// <summary>
+        /// Convert to ValueTuple.
+        /// </summary>
+        /// <returns>Converted result.</returns>
         public ValueTuple<T1, T2> ToValueTuple() => new ValueTuple<T1, T2>(_item1, _item2);
 
         #region IComparable
+        /// <inheritdoc/>
         public override int CompareTo(ISlot? obj) => InternalSlotUtils.CompareTo(this, obj);
         #endregion
 

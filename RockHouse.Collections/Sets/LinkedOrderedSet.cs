@@ -16,16 +16,27 @@ namespace RockHouse.Collections.Sets
         private readonly Dictionary<ValueTuple<T>, LinkedListNode<T>> _dic;
         private readonly LinkedList<T> _list;
 
+        /// <summary>
+        /// Constructs an empty instance.
+        /// </summary>
         public LinkedOrderedSet() : this(0)
         {
         }
 
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
         public LinkedOrderedSet(int capacity)
         {
             this._dic = new Dictionary<ValueTuple<T>, LinkedListNode<T>>(capacity);
             this._list = new LinkedList<T>();
         }
 
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
         public LinkedOrderedSet(IEnumerable<T> src) : this(0)
         {
             this.AddAll(src);

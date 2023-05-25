@@ -4,6 +4,7 @@ using System.Text;
 
 namespace RockHouse.Collections.Slots
 {
+#nullable enable
     internal static class InternalSlotUtils
     {
         public static bool Equals(ISlot? slot1, object? slot2)
@@ -111,3 +112,4 @@ namespace RockHouse.Collections.Slots
         }
     }
 }
+#nullable restore

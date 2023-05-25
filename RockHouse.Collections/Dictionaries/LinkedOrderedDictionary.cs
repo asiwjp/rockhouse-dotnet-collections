@@ -19,16 +19,27 @@ namespace RockHouse.Collections.Dictionaries
         private readonly Dictionary<K, Slot<V, LinkedListNode<K>>> _dic;
         private readonly LinkedList<K> _orderedKeys;
 
+        /// <summary>
+        /// Constructs an empty instance.
+        /// </summary>
         public LinkedOrderedDictionary() : this(0)
         {
         }
 
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
         public LinkedOrderedDictionary(int capacity)
         {
             _dic = new Dictionary<K, Slot<V, LinkedListNode<K>>>(capacity);
             _orderedKeys = new LinkedList<K>();
         }
 
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
         public LinkedOrderedDictionary(IEnumerable<KeyValuePair<K, V>> src) : this(0)
         {
             this.AddAll(src);

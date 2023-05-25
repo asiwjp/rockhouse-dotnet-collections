@@ -14,6 +14,9 @@ namespace RockHouse.Collections.Slots
         /// <inheritdoc/>
         public override int Count => _set1;
 
+        /// <summary>
+        /// The first element.
+        /// </summary>
         public T1 Item1
         {
             get
@@ -27,31 +30,54 @@ namespace RockHouse.Collections.Slots
             }
         }
 
+        /// <summary>
+        /// Constructs an instance with default values.
+        /// </summary>
         public Slot()
         {
         }
 
+        /// <summary>
+        /// Constructs an instance with the specified arguments.
+        /// </summary>
+        /// <param name="item1">Initial value of Item1.</param>
         public Slot(T1 item1)
         {
             Item1 = item1;
         }
 
+        /// <summary>
+        /// Constructs an instance with the specified arguments.
+        /// </summary>
+        /// <param name="other">Source of the initial value.</param>
         public Slot(Slot<T1> other)
         {
             this._item1 = other._item1;
             this._set1 = other._set1;
         }
 
+        /// <summary>
+        /// Constructs an instance with the specified arguments.
+        /// </summary>
+        /// <param name="other">Source of the initial value.</param>
         public Slot(Tuple<T1> other)
         {
             Item1 = other.Item1;
         }
 
+        /// <summary>
+        /// Constructs an instance with the specified arguments.
+        /// </summary>
+        /// <param name="other">Source of the initial value.</param>
         public Slot(ValueTuple<T1> other)
         {
             Item1 = other.Item1;
         }
 
+        /// <summary>
+        /// Remove and empty.
+        /// </summary>
+        /// <returns>ValueTuple that contains the removed items.</returns>
         public ValueTuple<T1> RemoveAll()
         {
             var res = this.ToValueTuple();
@@ -60,8 +86,16 @@ namespace RockHouse.Collections.Slots
             return res;
         }
 
+        /// <summary>
+        /// Convert to Tuple.
+        /// </summary>
+        /// <returns>Converted result.</returns>
         public Tuple<T1> ToTuple() => new Tuple<T1>(_item1);
 
+        /// <summary>
+        /// Convert to ValueTuple.
+        /// </summary>
+        /// <returns>Converted result.</returns>
         public ValueTuple<T1> ToValueTuple() => new ValueTuple<T1>(_item1);
 
         #region IComparable
