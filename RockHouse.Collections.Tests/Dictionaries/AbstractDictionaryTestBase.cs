@@ -573,6 +573,20 @@ namespace RockHouse.Collections.Tests.Dictionaries
         }
 
         [Fact]
+        public void Test__IHashMap_PutIfAbsent()
+        {
+            var col = NewInstance();
+
+            int actual1 = col.PutIfAbsent("a", 1);
+            Assert.Equal(1, col["a"]);
+            Assert.Equal(0, actual1);
+
+            int actual2 = col.PutIfAbsent("a", 2);
+            Assert.Equal(1, col["a"]);
+            Assert.Equal(1, actual2);
+        }
+
+        [Fact]
         public void Test__Object_ToString()
         {
             var col = NewInstance();

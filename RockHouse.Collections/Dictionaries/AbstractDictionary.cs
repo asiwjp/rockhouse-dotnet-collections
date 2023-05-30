@@ -80,6 +80,16 @@ namespace RockHouse.Collections.Dictionaries
         }
 
         /// <inheritdoc/>
+        public virtual V PutIfAbsent(K key, V value)
+        {
+            if (!this.TryGetValue(key, out var oldValue))
+            {
+                this.Add(key, value);
+            }
+            return oldValue;
+        }
+
+        /// <inheritdoc/>
         protected abstract bool Update(K key, V value);
 
         #region ICollection

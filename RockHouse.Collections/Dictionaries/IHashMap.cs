@@ -32,6 +32,14 @@ namespace RockHouse.Collections.Dictionaries
         public V Put(K key, V value, Func<K, V> ifNotFound = null, Func<K, V, V> ifFound = null);
 
         /// <summary>
+        /// If the specified key is not found, the value is stored with that key.
+        /// </summary>
+        /// <param name="key">Key associated with the value.</param>
+        /// <param name="value">Value associated with the specified key.</param>
+        /// <returns>Returns the value associated with the key. If the key is not found, it is default(V).</returns>
+        public V PutIfAbsent(K key, V value);
+
+        /// <summary>
         /// Removes the value associated with the specified key and returns the removed value.
         /// If key is not not found, nothing is done.
         /// </summary>
