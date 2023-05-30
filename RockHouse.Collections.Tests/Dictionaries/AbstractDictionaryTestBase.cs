@@ -471,7 +471,8 @@ namespace RockHouse.Collections.Tests.Dictionaries
 
             int actual2 = col.Put("a", 2);
             Assert.Equal(1, col["b"]);
-            Assert.Equal(0, actual1);
+            Assert.Equal(2, col["a"]);
+            Assert.Equal(0, actual2);
 
             var actual3 = col.Put("b", 3);
             Assert.Equal(3, col["b"]);
@@ -768,9 +769,9 @@ namespace RockHouse.Collections.Tests.Dictionaries
             var col = this.NewInstance();
             col.Add("a", 11);
 
-            var actualRet = col.TryGetValue("a", out int actualValue);
-            Assert.True(actualRet);
-            Assert.Equal(11, actualValue);
+            var actualRet = col.TryGetValue("notfound", out int actualValue);
+            Assert.False(actualRet);
+            Assert.Equal(default, actualValue);
         }
     }
 }
