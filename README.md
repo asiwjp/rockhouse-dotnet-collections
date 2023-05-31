@@ -9,6 +9,8 @@ The following is an example of a class.
 - LinkedHashMap
 - LinkedOrderedDictionary
 - ListOrderedDictionary
+- ListValuedMap/Dictionary
+- LruMap/Dictionary
 - LinkedHashSet
 - LinkedOrderedSet
 - ListOrderedSet
@@ -34,8 +36,21 @@ var get3 = map.Get("a"); // get3 is 2
 >Since null is not allowed in primitive types, the API that returns null substitutes default(V).
 >For example, default(int) is 0.
 
-Compatibility with  .NET API
+Compatibility with .NET API
 -------
+### Enumerable
+```
+var map = new HashMap<string, int>()
+{
+    { "a", 1 },
+    { "b", 2 },
+    { "c", 3 },
+};
+foreach (var entry in map)
+{
+    //
+}
+```
 
 ### LINQ
 
@@ -46,12 +61,11 @@ var map = new HashMap<string, int>()
     { "b", 2 },
     { "c", 3 },
 };
-var result = String.Join(",", map.Where(e => e.Value > 1).Select(e => e.Key))
+var result = String.Join(",", map.Where(e => e.Value > 1).Select(e => e.Key));
 System.Console.WriteLine(result); // b,c
 ```
 
 ### Json
-...
 
 With System.Text.Json
 ```
