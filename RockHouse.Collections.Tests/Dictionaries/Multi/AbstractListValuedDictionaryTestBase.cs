@@ -393,6 +393,16 @@ namespace RockHouse.Collections.Tests.Dictionaries.Multi
         }
 
         [Fact]
+        public void Test__prop_IsEmpty()
+        {
+            var col = NewInstance<string, int>();
+            Assert.True(col.IsEmpty);
+
+            col.Add("a", 1);
+            Assert.False(col.IsEmpty);
+        }
+
+        [Fact]
         public void Test__prop_Keys()
         {
             var col = NewInstance<string, int>();

@@ -10,7 +10,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
     /// <typeparam name="K">The type of keys.</typeparam>
     /// <typeparam name="V">The type of values.</typeparam>
     /// <typeparam name="C">The type of the value collection.</typeparam>
-    public interface IMultiValuedDictionary<K, V, C> : ICollection<KeyValuePair<K, V>>, IEnumerable<KeyValuePair<K, V>>, IEnumerable
+    public interface IMultiValuedDictionary<K, V, C> : IContainer, ICollection<KeyValuePair<K, V>>, IEnumerable<KeyValuePair<K, V>>, IEnumerable
         where K : notnull
         where C : System.Collections.Generic.ICollection<V>
     {
