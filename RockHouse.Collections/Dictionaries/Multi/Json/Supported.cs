@@ -9,6 +9,7 @@ namespace RockHouse.Collections.Dictionaries.Multi.Json
         {
             typeof(ListValuedDictionary<,>),
             typeof(ListValuedMap<,>),
+            typeof(HashSetValuedDictionary<,>),
         };
 
         internal static readonly Type[] ConvertableKeyTypes = new Type[]

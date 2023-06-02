@@ -27,7 +27,7 @@ namespace RockHouse.Collections.Dictionaries.Multi.Json.SystemTextJson
                 Type genericType = typeToConvert.GetGenericTypeDefinition();
                 Type keyType = typeToConvert.GetGenericArguments()[0];
                 Type valueType = typeToConvert.GetGenericArguments()[1];
-                Type valuesCollectionType = this.MakeCollectionType(typeof(IList<>), valueType);
+                Type valuesCollectionType = this.GetValuesCollectionType(genericType, valueType);
                 Type converterType = this.MakeConverterType(keyType, valueType, valuesCollectionType);
 
                 return (JsonConverter)Activator.CreateInstance(
@@ -43,9 +43,16 @@ namespace RockHouse.Collections.Dictionaries.Multi.Json.SystemTextJson
             }
         }
 
-        protected virtual Type MakeCollectionType(Type collectionType, Type valueType)
+        protected virtual Type GetValuesCollectionType(Type genericType, Type valueType)
         {
-            return collectionType.MakeGenericType(new Type[] { valueType });
+            do
+            {
+                genericType = genericType.BaseType;
+            } while (genericType.GetGenericTypeDefinition() != typeof(AbstractMultiValuedDictionary<,,>));
+
+            var args = genericType.GetGenericArguments();
+            var valueCollectionGenericType = args[2].GetGenericTypeDefinition();
+            return valueCollectionGenericType.MakeGenericType(valueType);
         }
 
         protected virtual Type MakeConverterType(Type keyType, Type valueType, Type valueCollectionType)

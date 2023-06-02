@@ -5,16 +5,16 @@ RockHouse.Collections is a Collection class package that mimics the Java languag
 It also adds several proprietary APIs.
 
 The following is an example of a class.
-- HashMap
-- LinkedHashMap
-- LinkedOrderedDictionary
-- ListOrderedDictionary
-- ListValuedMap/Dictionary
-- LruMap/Dictionary
-- LinkedHashSet
-- LinkedOrderedSet
-- ListOrderedSet
-
+- Dictionaries.HashMap
+- Dictionaries.LinkedHashMap
+- Dictionaries.LinkedOrderedDictionary
+- Dictionaries.ListOrderedDictionary
+- Dictionaries.LruMap/Dictionary
+- Dictionaries.Multi.HashSetValuedDictionary
+- Dictionaries.Multi.ListValuedMap/Dictionary
+- Sets.LinkedHashSet
+- Sets.LinkedOrderedSet
+- Sets.ListOrderedSet
 etc
 
 Java language-like
