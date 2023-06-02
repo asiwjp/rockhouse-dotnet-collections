@@ -1,7 +1,7 @@
 ﻿RockHouse.Collections
 ===================
 
-RockHouse.Collections is a Collection class package that mimics the Java language API.
+RockHouse.Collections is a Collection class package that mimics the Java language API and the Apache.Commons.CollectionsAPI.
 It also adds several proprietary APIs.
 
 The following is an example of a class.
@@ -22,6 +22,11 @@ Java language-like
 ```
 var map = new HashMap<string, string>();
 
+if (map.IsEmpty)
+{
+    Console.WriteLine("empty");
+}
+
 var get1 = map.Get("a"); // get1 is null
 
 var put1 = map.Put("a", 1); // put1 is null
@@ -38,7 +43,7 @@ var get3 = map.Get("a"); // get3 is 2
 
 Compatibility with .NET API
 -------
-### Enumerable
+### Collection initializer
 ```
 var map = new HashMap<string, int>()
 {
@@ -46,34 +51,34 @@ var map = new HashMap<string, int>()
     { "b", 2 },
     { "c", 3 },
 };
+```
+
+### Indexer
+```
+map["key"] = 10;
+var value = map["key"]; // value is 10
+var abort = map["not found"]; // KeyNotFoundException
+```
+
+### Enumerable
+```
 foreach (var entry in map)
 {
-    //
+    Console.WriteLine($"key={entry.Key}, value={entry.Value}");
 }
 ```
 
 ### LINQ
-
 ```
-var map = new HashMap<string, int>()
-{
-    { "a", 1 },
-    { "b", 2 },
-    { "c", 3 },
-};
-var result = String.Join(",", map.Where(e => e.Value > 1).Select(e => e.Key));
-System.Console.WriteLine(result); // b,c
+var filteredList = map.Where(e => e.Value > 1)
+                        .Select(e => e.Key)
+                        .ToList();
 ```
 
 ### Json
 
 With System.Text.Json
 ```
-var map = new HashMap<string, int>()
-{
-    { "key1", 1 },
-    { "key2", 2 }
-};
 var json = JsonSerializer.Serialize(map);
 var restore = JsonSerializer.Deserialize<HashMap<string, int>>(json);
 ```
