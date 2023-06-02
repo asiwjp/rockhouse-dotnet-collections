@@ -202,22 +202,8 @@ namespace RockHouse.Collections.Sets
                 return true;
             }
 
-            var thisCount = this.Count;
-            var otherCount = 0;
-            var contains = 0;
-            foreach (var o in other)
-            {
-                ++otherCount;
-                if (this.Contains(o))
-                {
-                    ++contains;
-                }
-            }
-            if (otherCount < thisCount)
-            {
-                return false;
-            }
-            return (contains <= otherCount);
+            var otherSet = new HashSet<T>(other);
+            return otherSet.IsSupersetOf(this);
         }
 
         /// <inheritdoc/>

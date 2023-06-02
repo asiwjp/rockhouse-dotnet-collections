@@ -647,6 +647,8 @@ namespace RockHouse.Collections.Tests.Sets
         [InlineData(true, "a.c.e", "a.c.e")]
         [InlineData(true, "a.c", "a.c.e")]
         [InlineData(false, "a.c.e", "a.c")]
+        [InlineData(false, "f", "a.c")]
+        [InlineData(false, "a", "c")]
         [InlineData(true, "", "a.c.e")]
         [InlineData(false, "a.c.e", "")]
         public void Test_IsSubsetOf(bool excepted, string srcValues, string srcOtherValues)
