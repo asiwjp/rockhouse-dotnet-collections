@@ -77,12 +77,6 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// <returns></returns>
         protected abstract C CreateValuesProxy(K key);
 
-        /// <inheritdoc/>
-        public C Get(K key) => this[key];
-
-        /// <inheritdoc/>
-        public bool Put(K key, V value) => this.Add(key, value);
-
         internal C ReadyInternalValues(K key)
         {
             if (_dic.TryGetValue(key, out var values))
@@ -210,6 +204,17 @@ namespace RockHouse.Collections.Dictionaries.Multi
         }
 
         /// <inheritdoc/>
+        public bool AddAll(K key, IEnumerable<V> src)
+        {
+            var result = false;
+            foreach (var item in src)
+            {
+                result |= this.Put(key, item);
+            }
+            return result;
+        }
+
+        /// <inheritdoc/>
         public bool ContainsKey(K key)
         {
             return _dic.ContainsKey(key);
@@ -228,6 +233,29 @@ namespace RockHouse.Collections.Dictionaries.Multi
             value = this.CreateValuesProxy(key);
             return this.ContainsKey(key);
         }
+        #endregion
+
+        #region IMultiValuedMap
+        /// <inheritdoc/>
+        public C Get(K key) => this[key];
+
+        /// <inheritdoc/>
+        public C Delete(K key)
+        {
+            var result = this.CreateValues();
+            foreach (var e in this[key])
+            {
+                result.Add(e);
+            }
+            this.Remove(key);
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public bool Put(K key, V value) => this.Add(key, value);
+
+        /// <inheritdoc/>
+        public bool PutAll(K key, IEnumerable<V> src) => this.AddAll(key, src);
         #endregion
 
         #region IEnumerable

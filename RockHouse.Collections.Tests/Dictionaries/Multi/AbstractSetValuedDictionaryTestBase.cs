@@ -311,6 +311,61 @@ namespace RockHouse.Collections.Tests.Dictionaries.Multi
             var col = NewInstance<string, int>();
             Assert.Empty(col);
         }
+        [Fact]
+        public void Test__IMultiValuedMap_AddAll()
+        {
+            var col = NewInstance<string, int>();
+            col["a"].Add(1);
+
+            var actual1 = col.AddAll("a", new int[] { 2 });
+            Assert.Equal(new int[] { 1, 2 }, col["a"]);
+            Assert.True(actual1);
+            Assert.Equal(2, col.Count);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_AddAll_if_duplicateValues()
+        {
+            var col = NewInstance<string, int>();
+            col["a"].Add(1);
+
+            var actual1 = col.AddAll("a", new int[] { 1, 1, 2 });
+            Assert.Equal(new int[] { 1, 2 }, col["a"]);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_AddAll_if_emptySrc()
+        {
+            var col = NewInstance<string, int>();
+
+            var actual1 = col.AddAll("a", new int[] { });
+            Assert.False(actual1);
+            Assert.Equal(0, col.Count);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_Delete()
+        {
+            var col = NewInstance<string, int>();
+            col["a"].Add(1);
+            col["a"].Add(2);
+
+            var actual1 = col.Delete("a");
+            Assert.Equal(new int[] { 1, 2 }, actual1);
+            Assert.False(col.ContainsKey("a"));
+            Assert.Empty(col["a"]);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_Delete_if_notfound()
+        {
+            var col = NewInstance<string, int>();
+
+            var actual1 = col.Delete("notfound");
+            Assert.Empty(actual1);
+            Assert.False(col.ContainsKey("a"));
+            Assert.Empty(col["a"]);
+        }
 
         [Fact]
         public void Test__IMultiValuedMap_Get()
@@ -366,6 +421,28 @@ namespace RockHouse.Collections.Tests.Dictionaries.Multi
             Assert.Equal(new HashSet<int> { 1, 2 }, col["a"]);
             Assert.Equal(new HashSet<int> { 3 }, col["b"]);
             Assert.True(actual3);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_PutAll()
+        {
+            var col = NewInstance<string, int>();
+            col["a"].Add(1);
+
+            var actual1 = col.AddAll("a", new int[] { 2, 3 });
+            Assert.Equal(new int[] { 1, 2, 3 }, col["a"]);
+            Assert.True(actual1);
+            Assert.Equal(3, col.Count);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_PutAll_if_duplicateValues()
+        {
+            var col = NewInstance<string, int>();
+            col["a"].Add(1);
+
+            var actual1 = col.AddAll("a", new int[] { 1, 1, 2 });
+            Assert.Equal(new int[] { 1, 2 }, col["a"]);
         }
 
         [Fact]
