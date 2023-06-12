@@ -8,10 +8,9 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
 {
     internal class DictionaryJsonConverter<K, V> : JsonConverter<IDictionary<K, V>>
     {
-
         private readonly Type _genericType;
-        private readonly JsonConverter<K> _keyConverter;
-        private readonly JsonConverter<string> _stringConverter;
+        private readonly Func<string, object> _keyParser;
+        private readonly Func<object, string> _keyFormatter;
         private readonly JsonConverter<V?> _valueConverter;
         private readonly Type _keyType;
         private readonly Type _valueType;
@@ -23,7 +22,8 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
             _valueType = typeof(V);
             Supported.CheckKeyType(_keyType);
 
-            _keyConverter = (JsonConverter<K>)options.GetConverter(typeof(K));
+            _keyParser = this.GetKeyParser(_keyType);
+            _keyFormatter = this.GetKeyFormatter(_keyType);
             _valueConverter = (JsonConverter<V>)options.GetConverter(typeof(V));
 
             // for old version of System.Text.Json
@@ -60,11 +60,7 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
                     throw new JsonException();
                 }
 
-                K? key = (K?)Convert.ChangeType(reader.GetString(), _keyType);
-                if (key == null)
-                {
-                    throw new JsonException($"Null key detected.");
-                }
+                K key = (K)_keyParser(reader.GetString());
 
                 // read value
                 if (!reader.Read())
@@ -82,11 +78,97 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
             writer.WriteStartObject();
             foreach (var entry in value)
             {
-                var propName = entry.Key.ToString();
+                var propName = _keyFormatter(entry.Key);
                 writer.WritePropertyName(propName);
                 _valueConverter.Write(writer, entry.Value, options);
             }
             writer.WriteEndObject();
+        }
+
+        private Func<string, object> GetKeyParser(Type keyType)
+        {
+            if (keyType == typeof(Guid))
+            {
+                return (value) =>
+                {
+                    try
+                    {
+                        return new Guid(value);
+                    }
+                    catch (OverflowException e)
+                    {
+                        throw new JsonException($"Could not convert Json value to type {keyType}.", e);
+                    }
+                    catch (FormatException e)
+                    {
+                        throw new JsonException($"Could not convert Json value to type {keyType}.", e);
+                    }
+                };
+            }
+            else if (keyType == typeof(Uri))
+            {
+                return (value) =>
+                {
+                    try
+                    {
+                        return new Uri(value);
+                    }
+                    catch (FormatException e)
+                    {
+                        throw new JsonException($"Could not convert Json value to type {keyType}.", e);
+                    }
+                };
+            }
+            else if (keyType == typeof(DateTimeOffset))
+            {
+                return (value) =>
+                {
+                    try
+                    {
+                        return DateTimeOffset.Parse(value);
+                    }
+                    catch (FormatException e)
+                    {
+                        throw new JsonException($"Could not convert Json value to type {keyType}.", e);
+                    }
+                };
+            }
+            else
+            {
+                return (value) =>
+                {
+                    try
+                    {
+                        return Convert.ChangeType(value, keyType);
+                    }
+                    catch (OverflowException e)
+                    {
+                        throw new JsonException($"Could not convert Json value to type {keyType}.", e);
+                    }
+                    catch (FormatException e)
+                    {
+                        throw new JsonException($"Could not convert Json value to type {keyType}.", e);
+                    }
+                };
+            }
+        }
+
+        private Func<object, string> GetKeyFormatter(Type keyType)
+        {
+            if (keyType == typeof(DateTimeOffset))
+            {
+                return (value) =>
+                {
+                    return ((DateTimeOffset)value).ToString("O");
+                };
+            }
+            else
+            {
+                return (value) =>
+                {
+                    return value.ToString();
+                };
+            }
         }
     }
 

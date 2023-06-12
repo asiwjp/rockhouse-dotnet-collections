@@ -35,10 +35,10 @@ namespace RockHouse.Collections.Dictionaries.Json
 
             // TODO
             //typeof(DateTime),
-            //typeof(DateTimeOffset),
+            typeof(DateTimeOffset),
             //typeof(Enum),
-            //typeof(Guid),
-            //typeof(Uri),
+            typeof(Guid),
+            typeof(Uri),
         };
 
         internal static void CheckKeyType(Type keyType)

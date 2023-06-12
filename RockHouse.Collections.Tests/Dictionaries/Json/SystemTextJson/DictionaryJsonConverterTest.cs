@@ -24,73 +24,157 @@ namespace RockHouse.Collections.Tests.Dictionaries.Json.SystemTextJson
         }
 
         [Fact]
-        public void Test___ctor_supportedKeyType()
+        public void Test___types()
         {
-            var boolMap = JsonSerializer.Deserialize<LinkedHashMap<bool, int>>(@"{""true"":1}");
-            Assert.Equal(1, boolMap[true]);
+            string json = @"{""True"":false}";
+            var boolMap = JsonSerializer.Deserialize<LinkedHashMap<bool, bool>>(json);
+            var actualJson = JsonSerializer.Serialize(boolMap);
+            Assert.False(boolMap[true]);
+            Assert.Equal(json, actualJson);
 
-            var sbyteMap = JsonSerializer.Deserialize<LinkedHashMap<sbyte, int>>(@"{""2"":1}");
+            json = @"{""2"":1}";
+            var sbyteMap = JsonSerializer.Deserialize<LinkedHashMap<sbyte, int>>(json);
+            actualJson = JsonSerializer.Serialize(sbyteMap);
             Assert.Equal(1, sbyteMap[2]);
+            Assert.Equal(json, actualJson);
 
-            var shortMap = JsonSerializer.Deserialize<LinkedHashMap<short, int>>(@"{""3"":1}");
+            json = @"{""3"":1}";
+            var shortMap = JsonSerializer.Deserialize<LinkedHashMap<short, int>>(json);
+            actualJson = JsonSerializer.Serialize(shortMap);
             Assert.Equal(1, shortMap[3]);
+            Assert.Equal(json, actualJson);
 
-            var intMap = JsonSerializer.Deserialize<LinkedHashMap<int, int>>(@"{""4"":1}");
+            json = @"{""4"":1}";
+            var intMap = JsonSerializer.Deserialize<LinkedHashMap<int, int>>(json);
+            actualJson = JsonSerializer.Serialize(intMap);
             Assert.Equal(1, intMap[4]);
+            Assert.Equal(json, actualJson);
 
-            var longMap = JsonSerializer.Deserialize<LinkedHashMap<long, int>>(@"{""5"":1}");
+            json = @"{""5"":1}";
+            var longMap = JsonSerializer.Deserialize<LinkedHashMap<long, int>>(json);
+            actualJson = JsonSerializer.Serialize(longMap);
             Assert.Equal(1, longMap[5]);
+            Assert.Equal(json, actualJson);
 
-            var floatMap = JsonSerializer.Deserialize<LinkedHashMap<float, int>>(@"{""6.1"":1}");
+            json = @"{""6.1"":1}";
+            var floatMap = JsonSerializer.Deserialize<LinkedHashMap<float, int>>(json);
+            actualJson = JsonSerializer.Serialize(floatMap);
             Assert.Equal(1, floatMap[6.1f]);
+            Assert.Equal(json, actualJson);
 
-            var doubleMap = JsonSerializer.Deserialize<LinkedHashMap<double, int>>(@"{""7.1"":1}");
+            json = @"{""7.1"":1}";
+            var doubleMap = JsonSerializer.Deserialize<LinkedHashMap<double, int>>(json);
+            actualJson = JsonSerializer.Serialize(doubleMap);
             Assert.Equal(1, doubleMap[7.1d]);
+            Assert.Equal(json, actualJson);
 
-            var byteMap = JsonSerializer.Deserialize<LinkedHashMap<sbyte, int>>(@"{""2"":1}");
+            json = @"{""2"":1}";
+            var byteMap = JsonSerializer.Deserialize<LinkedHashMap<byte, int>>(json);
+            actualJson = JsonSerializer.Serialize(byteMap);
             Assert.Equal(1, byteMap[2]);
+            Assert.Equal(json, actualJson);
 
-            var ushortMap = JsonSerializer.Deserialize<LinkedHashMap<short, int>>(@"{""3"":1}");
+            json = @"{""3"":1}";
+            var ushortMap = JsonSerializer.Deserialize<LinkedHashMap<ushort, int>>(json);
+            actualJson = JsonSerializer.Serialize(ushortMap);
             Assert.Equal(1, ushortMap[3]);
+            Assert.Equal(json, actualJson);
 
-            var uintMap = JsonSerializer.Deserialize<LinkedHashMap<int, int>>(@"{""4"":1}");
+            json = @"{""4"":1}";
+            var uintMap = JsonSerializer.Deserialize<LinkedHashMap<uint, int>>(json);
+            actualJson = JsonSerializer.Serialize(uintMap);
             Assert.Equal(1, uintMap[4]);
+            Assert.Equal(json, actualJson);
 
-            var ulongMap = JsonSerializer.Deserialize<LinkedHashMap<long, int>>(@"{""5"":1}");
+            json = @"{""5"":1}";
+            var ulongMap = JsonSerializer.Deserialize<LinkedHashMap<ulong, int>>(json);
+            actualJson = JsonSerializer.Serialize(ulongMap);
             Assert.Equal(1, ulongMap[5]);
+            Assert.Equal(json, actualJson);
 
-            var ufloatMap = JsonSerializer.Deserialize<LinkedHashMap<float, int>>(@"{""6.1"":1}");
-            Assert.Equal(1, ufloatMap[6.1f]);
-
-            var udoubleMap = JsonSerializer.Deserialize<LinkedHashMap<double, int>>(@"{""7.1"":1}");
-            Assert.Equal(1, udoubleMap[7.1d]);
-
-            var charMap = JsonSerializer.Deserialize<LinkedHashMap<char, int>>(@"{""8"":1}");
+            json = @"{""8"":1}";
+            var charMap = JsonSerializer.Deserialize<LinkedHashMap<char, int>>(json);
+            actualJson = JsonSerializer.Serialize(charMap);
             Assert.Equal(1, charMap['8']);
+            Assert.Equal(json, actualJson);
 
-            var stringMap = JsonSerializer.Deserialize<LinkedHashMap<string, int>>(@"{""string"":1}");
-            Assert.Equal(1, stringMap["string"]);
+            json = @"{""key"":""value""}";
+            var stringMap = JsonSerializer.Deserialize<LinkedHashMap<string, string>>(json);
+            actualJson = JsonSerializer.Serialize(stringMap);
+            Assert.Equal("value", stringMap["key"]);
+            Assert.Equal(json, actualJson);
 
             // TODO
             //var dateTimeMap = JsonSerializer.Deserialize<LinkedHashMap<DateTime, int>>(@"{""2019-07-26T16:59:57"":1}");
-            //var dateTimeOffsetMap = JsonSerializer.Deserialize<LinkedHashMap<DateTimeOffset, int>>(@"{""2019-07-26T16:59:57+09:00"":1}");
             //var enumMap = JsonSerializer.Deserialize<LinkedHashMap<DayOfWeek, int>>(@"{""Monnay"":1}");
-            //var guidMap = JsonSerializer.Deserialize<LinkedHashMap<Guid, int>>(@"{""3F2504E0-4F89-11D3-9A0C-0305E82C3301"":1}");
-            //var uriMap = JsonSerializer.Deserialize<LinkedHashMap<Uri, int>>(@"{""https://localhost"":1}");
+
+            json = @"{""2019-07-26T16:59:57.9876543\u002B09:00"":""2020-07-26T16:59:57.9876543+09:00""}";
+            var dtoMap = JsonSerializer.Deserialize<LinkedHashMap<DateTimeOffset, DateTimeOffset>>(json);
+            actualJson = JsonSerializer.Serialize(dtoMap);
+            Assert.Equal(DateTimeOffset.Parse("2020-07-26T16:59:57.9876543+09:00"), dtoMap[DateTimeOffset.Parse("2019-07-26T16:59:57.9876543+09:00")]);
+            Assert.Equal(json, actualJson);
+
+            json = @"{""3f2504e0-4f89-11d3-9a0c-0305e82c3301"":""6076179e-8803-4162-a7c8-849a0fd526bb""}";
+            var guidMap = JsonSerializer.Deserialize<LinkedHashMap<Guid, Guid>>(json);
+            actualJson = JsonSerializer.Serialize(guidMap);
+            Assert.Equal(Guid.Parse("6076179e-8803-4162-a7c8-849a0fd526bb"), guidMap[Guid.Parse("3f2504e0-4f89-11d3-9a0c-0305e82c3301")]);
+            Assert.Equal(json, actualJson);
+
+            json = @"{""https://localhost/"":""https://localhost:8181/path?a=b""}";
+            var uriMap = JsonSerializer.Deserialize<LinkedHashMap<Uri, Uri>>(json);
+            actualJson = JsonSerializer.Serialize(uriMap);
+            Assert.Equal(new Uri("https://localhost:8181/path?a=b"), uriMap[new Uri("https://localhost/")]);
+            Assert.Equal(json, actualJson);
         }
 
+
         [Fact]
-        public void Test___ctor_not_supportedKeyType()
+        public void Test___types_not_supportedKeyType()
         {
             Assert.Throws<NotSupportedException>(() => JsonSerializer.Deserialize<LinkedHashMap<string[], int>>(@"{}"));
         }
 
         [Fact]
-        public void Test___ctor_not_supportedValueType()
+        public void Test___types_not_supportedValueType()
         {
 #if !NET5_0_OR_GREATER
             Assert.Throws<NotSupportedException>(() => JsonSerializer.Deserialize<LinkedHashMap<string, Action>>(@"{"""":1}"));
 #endif
+        }
+
+        [Fact]
+        public void Test__keyType_guid_dateTimeOffset_format()
+        {
+            var json = @"{""???"":1}";
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<LinkedHashMap<DateTimeOffset, int>>(json));
+        }
+
+        [Fact]
+        public void Test__keyType_guid_invalid_format()
+        {
+            var json = @"{""???"":1}";
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<LinkedHashMap<Guid, int>>(json));
+        }
+
+        [Fact]
+        public void Test__keyType_number_invalid_format()
+        {
+            var json = @"{""???"":1}";
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<LinkedHashMap<int, int>>(json));
+        }
+
+        [Fact]
+        public void Test__keyType_number_overflow()
+        {
+            var json = @"{""-9999999"":1}";
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<LinkedHashMap<byte, int>>(json));
+        }
+
+        [Fact]
+        public void Test__keyType_url_invalid_format()
+        {
+            var json = @"{""???"":1}";
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<LinkedHashMap<Uri, int>>(json));
         }
 
         [Fact]
