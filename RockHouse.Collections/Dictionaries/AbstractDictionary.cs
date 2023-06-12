@@ -37,7 +37,7 @@ namespace RockHouse.Collections.Dictionaries
                 }
                 return remvoedValue;
             }
-            
+
             if (ifNotFound != null)
             {
                 return ifNotFound(key);
@@ -202,7 +202,7 @@ namespace RockHouse.Collections.Dictionaries
 
         #region IEnumerable and Enumerator
         /// <inheritdoc/>
-        public IEnumerator<KeyValuePair<K, V>> GetEnumerator()
+        public virtual IEnumerator<KeyValuePair<K, V>> GetEnumerator()
         {
             foreach (var key in Keys)
             {

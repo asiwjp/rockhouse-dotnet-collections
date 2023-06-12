@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.Serialization;
 using Xunit;
 
@@ -7,6 +8,17 @@ namespace RockHouse.Collections.Tests
 {
     public class TestBase
     {
+        public static T GetFieldValue<T>(object o, string fieldName)
+        {
+            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
+            var fld = o.GetType().GetField(fieldName, bindingFlags);
+            if (fld == null)
+            {
+                throw new ArgumentException($"field not found. fieldName={fieldName}");
+            }
+            return (T)fld.GetValue(o);
+        }
+
         public DateTimeOffset ToDateTimeOffset(string text)
         {
             return DateTimeOffset.Parse(text);
@@ -102,6 +114,13 @@ namespace RockHouse.Collections.Tests
         {
             var indexer = "[" + index + "]";
             return string.IsNullOrEmpty(src) ? indexer : src + indexer;
+        }
+
+        public void ForceGC()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
         }
     }
 

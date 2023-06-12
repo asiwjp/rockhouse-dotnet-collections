@@ -13,6 +13,8 @@ namespace RockHouse.Collections.Dictionaries.Json
             typeof(ListOrderedDictionary<,>),
             typeof(LruDictionary<,>),
             typeof(LruMap<,>),
+            typeof(ReferenceDictionary<,>),
+            typeof(WeakHashMap<,>),
         };
 
         internal static readonly Type[] ConvertableKeyTypes = new Type[]

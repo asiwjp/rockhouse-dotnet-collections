@@ -18,6 +18,8 @@ namespace RockHouse.Collections.Tests.Dictionaries.Json.SystemTextJson
         [InlineData(true, typeof(ListOrderedDictionary<string, string>))]
         [InlineData(true, typeof(LruDictionary<string, string>))]
         [InlineData(true, typeof(LruMap<string, string>))]
+        [InlineData(true, typeof(ReferenceDictionary<string, string>))]
+        [InlineData(true, typeof(WeakHashMap<string, string>))]
         public void Test_CanConvert(bool expected, Type type)
         {
             var factory = new DictionaryJsonConverterFactory();
@@ -31,6 +33,15 @@ namespace RockHouse.Collections.Tests.Dictionaries.Json.SystemTextJson
             var factory = new DictionaryJsonConverterFactory();
             var actual = factory.CreateConverter(typeof(LinkedHashMap<string, string>), new JsonSerializerOptions());
             Assert.IsType<DictionaryJsonConverter<string, string>>(actual);
+        }
+
+        [Theory]
+        [InlineData(typeof(ReferenceDictionary<string, string>))]
+        [InlineData(typeof(WeakHashMap<string, string>))]
+        public void Test_CreateConverter_with_ReferenceDictionaryTypes(Type type)
+        {
+            var factory = new DictionaryJsonConverterFactory();
+            Assert.Throws<InvalidOperationException>(() => factory.CreateConverter(type, new JsonSerializerOptions()));
         }
 
         [Fact]

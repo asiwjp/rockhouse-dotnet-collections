@@ -8,16 +8,6 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
 {
     internal class DictionaryJsonConverterFactory : JsonConverterFactory
     {
-        private static readonly Type[] _supportedTypes = new Type[]
-        {
-            typeof(HashMap<,>),
-            typeof(LinkedHashMap<,>),
-            typeof(LinkedOrderedDictionary<,>),
-            typeof(ListOrderedDictionary<,>),
-            typeof(LruDictionary<,>),
-            typeof(LruMap<,>),
-        };
-
         public override bool CanConvert(Type typeToConvert)
         {
             if (!typeToConvert.IsGenericType)
@@ -34,6 +24,12 @@ namespace RockHouse.Collections.Dictionaries.Json.SystemTextJson
             try
             {
                 Type genericType = typeToConvert.GetGenericTypeDefinition();
+                if (genericType == typeof(ReferenceDictionary<,>)
+                    || genericType == typeof(WeakHashMap<,>))
+                {
+                    throw new InvalidOperationException("This dictionary class should not be treated as Json.");
+                }
+
                 Type keyType = typeToConvert.GetGenericArguments()[0];
                 Type valueType = typeToConvert.GetGenericArguments()[1];
                 Type converterType = this.MakeConverterType(keyType, valueType);

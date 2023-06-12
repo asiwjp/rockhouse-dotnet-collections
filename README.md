@@ -10,6 +10,8 @@ The following is an example of a class.
 - Dictionaries.LinkedOrderedDictionary
 - Dictionaries.ListOrderedDictionary
 - Dictionaries.LruMap/Dictionary
+- Dictionaries.ReferenceDictionary
+- Dictionaries.WeakHashMap
 - Dictionaries.Multi.HashSetValuedDictionary
 - Dictionaries.Multi.ListValuedMap/Dictionary
 - Sets.LinkedHashSet
