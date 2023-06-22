@@ -1,12 +1,17 @@
-﻿namespace RockHouse.Collections
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace RockHouse.Collections
 {
     internal abstract class AbstractReferenceHolder
     {
         protected int _hashCode;
+        protected IEqualityComparer _comparer;
 
-        public AbstractReferenceHolder(object obj)
+        public AbstractReferenceHolder(object obj, IEqualityComparer? comparer)
         {
-            _hashCode = obj.GetHashCode();
+            _comparer = comparer ?? EqualityComparer<object>.Default;
+            _hashCode = _comparer.GetHashCode(obj);
         }
 
         public override bool Equals(object other)
@@ -16,7 +21,7 @@
                 return false;
             }
 
-            return obj.Equals(other);
+            return _comparer.Equals(obj, other);
         }
 
         public override int GetHashCode()

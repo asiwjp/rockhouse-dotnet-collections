@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
@@ -24,6 +23,21 @@ namespace RockHouse.Collections.Tests.Dictionaries
         public override IHashMap<K, V> NewInstance<K, V>(IEnumerable<KeyValuePair<K, V>> src)
         {
             return new ReferenceDictionary<K, V>(src);
+        }
+
+        public override IHashMap<K, V> NewInstance<K, V>(IEqualityComparer<K>? comparer)
+        {
+            return new ReferenceDictionary<K, V>(comparer);
+        }
+
+        public override IHashMap<K, V> NewInstance<K, V>(int capacity, IEqualityComparer<K>? comparer)
+        {
+            return new ReferenceDictionary<K, V>(capacity, comparer);
+        }
+
+        public override IHashMap<K, V> NewInstance<K, V>(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer)
+        {
+            return new ReferenceDictionary<K, V>(src, comparer);
         }
 
         public override string Serialize_BySystemTextJson<K, V>(IHashMap<K, V> dictionary)

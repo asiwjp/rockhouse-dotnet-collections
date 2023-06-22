@@ -19,7 +19,7 @@ namespace RockHouse.Collections.Dictionaries
         /// <summary>
         /// Constructs an empty instance.
         /// </summary>
-        public HashMap() : this(0)
+        public HashMap() : this(0, null)
         {
         }
 
@@ -27,16 +27,42 @@ namespace RockHouse.Collections.Dictionaries
         /// Constructs an empty instance with the specified arguments.
         /// </summary>
         /// <param name="capacity">Initial capacity of the collection.</param>
-        public HashMap(int capacity)
+        public HashMap(int capacity) : this(capacity, null)
         {
-            this._dic = new Dictionary<K, V>(capacity);
         }
 
         /// <summary>
         /// Constructs an instance with the elements specified in the source.
         /// </summary>
         /// <param name="src">Source of the initial value.</param>
-        public HashMap(IEnumerable<KeyValuePair<K, V>> src) : this(0)
+        public HashMap(IEnumerable<KeyValuePair<K, V>> src) : this(src, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public HashMap(IEqualityComparer<K>? comparer) : this(0, comparer)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public HashMap(int capacity, IEqualityComparer<K>? comparer)
+        {
+            this._dic = new Dictionary<K, V>(capacity, comparer);
+        }
+
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public HashMap(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer) : this(0, comparer)
         {
             this.AddAll(src);
         }

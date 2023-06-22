@@ -10,7 +10,7 @@ namespace RockHouse.Collections.Tests.Dictionaries
         [Fact]
         public void Test_ctor()
         {
-            var entry = new ReferenceEntry<string, string>(ReferenceStrength.Weak, "a", ReferenceStrength.Weak, "b");
+            var entry = new ReferenceEntry<string, string>(ReferenceStrength.Weak, "a", ReferenceStrength.Weak, "b", null);
 
             Assert.True(entry.Key.Equals("a"));
             Assert.True(entry.Value.Equals("b"));
@@ -23,7 +23,8 @@ namespace RockHouse.Collections.Tests.Dictionaries
                 ReferenceStrength.Weak,
                 "key",
                 ReferenceStrength.Weak,
-                "value"
+                "value",
+                null
                 );
 
             var actual = entry.GetKeyValue();
@@ -39,7 +40,8 @@ namespace RockHouse.Collections.Tests.Dictionaries
                 ReferenceStrength.Weak,
                 new Tuple<string>("key"),
                 ReferenceStrength.Weak,
-                new Tuple<string>("value")
+                new Tuple<string>("value"),
+                null
                 );
             Task.Run(() =>
             {

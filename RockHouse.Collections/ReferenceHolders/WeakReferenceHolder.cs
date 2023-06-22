@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace RockHouse.Collections.ReferenceHolders
 {
@@ -6,7 +7,7 @@ namespace RockHouse.Collections.ReferenceHolders
     {
         private WeakReference<object> _obj;
 
-        public WeakReferenceHolder(object obj) : base(obj)
+        public WeakReferenceHolder(object obj, IEqualityComparer? comparer) : base(obj, comparer)
         {
             _obj = new WeakReference<object>(obj);
         }
@@ -14,7 +15,7 @@ namespace RockHouse.Collections.ReferenceHolders
         public override void Set(object obj)
         {
             _obj.SetTarget(obj);
-            _hashCode = obj.GetHashCode();
+            _hashCode = _comparer.GetHashCode(obj);
         }
 
         public override bool TryGet(out object obj)

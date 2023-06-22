@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace RockHouse.Collections.Dictionaries
 {
@@ -7,10 +8,10 @@ namespace RockHouse.Collections.Dictionaries
         public readonly AbstractReferenceHolder Key;
         public readonly AbstractReferenceHolder Value;
 
-        public ReferenceEntry(ReferenceStrength keyStrength, K key, ReferenceStrength valueStrength, V value)
+        public ReferenceEntry(ReferenceStrength keyStrength, K key, ReferenceStrength valueStrength, V value, IEqualityComparer<K>? keyComparer)
         {
-            Key = keyStrength.Hold(key);
-            Value = valueStrength.Hold(value);
+            Key = keyStrength.Hold(key, (IEqualityComparer)keyComparer);
+            Value = valueStrength.Hold(value, EqualityComparer<V>.Default);
         }
 
         public KeyValuePair<K, V>? GetKeyValue()

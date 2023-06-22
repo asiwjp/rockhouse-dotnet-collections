@@ -31,6 +31,21 @@ namespace RockHouse.Collections.Tests.Dictionaries
             return new LruDictionary<K, V>(capacity);
         }
 
+        public override IHashMap<K, V> NewInstance<K, V>(IEqualityComparer<K>? comparer)
+        {
+            return new LruDictionary<K, V>(comparer);
+        }
+
+        public override IHashMap<K, V> NewInstance<K, V>(int capacity, IEqualityComparer<K>? comparer)
+        {
+            return new LruDictionary<K, V>(capacity, comparer);
+        }
+
+        public override IHashMap<K, V> NewInstance<K, V>(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer)
+        {
+            return new LruDictionary<K, V>(src, comparer);
+        }
+
         public override IHashMap<K, V> Deserialize_BySystemTextJson<K, V>(string json)
         {
             return JsonSerializer.Deserialize<LruDictionary<K, V>>(json);

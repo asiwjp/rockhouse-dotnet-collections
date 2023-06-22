@@ -11,6 +11,9 @@ namespace RockHouse.Collections.Tests.Dictionaries.Multi
         public abstract IMultiValuedMap<K, V, IList<V>> NewInstance<K, V>();
         public abstract IMultiValuedMap<K, V, IList<V>> NewInstance<K, V>(int capacity);
         public abstract IMultiValuedMap<K, V, IList<V>> NewInstance<K, V>(IEnumerable<KeyValuePair<K, V>> src);
+        public abstract IMultiValuedMap<K, V, IList<V>> NewInstance<K, V>(IEqualityComparer<K>? comparer);
+        public abstract IMultiValuedMap<K, V, IList<V>> NewInstance<K, V>(int capacity, IEqualityComparer<K>? comparer);
+        public abstract IMultiValuedMap<K, V, IList<V>> NewInstance<K, V>(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer);
         public abstract IMultiValuedMap<K, V, IList<V>> Deserialize_BySystemTextJson<K, V>(string json);
         public abstract string Serialize_BySystemTextJson<K, V>(IMultiValuedMap<K, V, IList<V>> dic);
 
@@ -56,6 +59,28 @@ namespace RockHouse.Collections.Tests.Dictionaries.Multi
             Assert.Equal(new string[] { "b" }, col.Keys.ToArray());
             Assert.Equal(new int[] { 11, 11 }, col.Values.ToArray());
             Assert.Equal(new int[] { 11, 11 }, col["b"]);
+        }
+
+        [Fact]
+        public void Test___ctor_with_equalityComparer()
+        {
+            var col1 = NewInstance<string, int>(new IgnoreCaseStringComparer());
+            col1["a"].Add(11);
+            col1["A"].Add(12);
+            Assert.Equal(new int[] { 11, 12 }, col1["A"].ToArray());
+
+            var col2 = NewInstance<string, int>(5, new IgnoreCaseStringComparer());
+            col2["a"].Add(21);
+            col2["A"].Add(22);
+            Assert.Equal(new int[] { 21, 22 }, col2["A"].ToArray());
+
+            var col3 = NewInstance<string, int>(new Dictionary<string, int>
+            {
+                { "a", 31 },
+                { "A", 32 },
+            },
+            new IgnoreCaseStringComparer());
+            Assert.Equal(new int[] { 31, 32 }, col3["A"].ToArray());
         }
 
 

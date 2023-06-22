@@ -17,6 +17,7 @@ namespace RockHouse.Collections.Dictionaries
     public class ReferenceDictionary<K, V> : AbstractDictionary<K, V>, IHashMap<K, V>
     {
         private HashMap<int, LinkedList<ReferenceEntry<K, V>>> _dic;
+        private IEqualityComparer<K> _equalityComparer;
 
         /// <summary>
         /// The reference strength of keys.
@@ -31,7 +32,7 @@ namespace RockHouse.Collections.Dictionaries
         /// <summary>
         /// Construct an instance that hold keys by strong reference and values by weak reference.
         /// </summary>
-        public ReferenceDictionary() : this(ReferenceStrength.Hard, ReferenceStrength.Weak, 0)
+        public ReferenceDictionary() : this(ReferenceStrength.Hard, ReferenceStrength.Weak, 0, null)
         {
         }
 
@@ -39,7 +40,7 @@ namespace RockHouse.Collections.Dictionaries
         /// Construct an instance that hold keys by strong reference and values by weak reference.
         /// </summary>
         /// <param name="capacity">Initial capacity of the collection.</param>
-        public ReferenceDictionary(int capacity) : this(ReferenceStrength.Hard, ReferenceStrength.Weak, capacity)
+        public ReferenceDictionary(int capacity) : this(ReferenceStrength.Hard, ReferenceStrength.Weak, capacity, null)
         {
         }
 
@@ -49,9 +50,47 @@ namespace RockHouse.Collections.Dictionaries
         /// <param name="keyReferenceStrength">The reference strength of keys.</param>
         /// <param name="valueReferenceStrength">The reference strength of values.</param>
         /// <param name="capacity">Initial capacity of the collection.</param>
-        public ReferenceDictionary(ReferenceStrength keyReferenceStrength, ReferenceStrength valueReferenceStrength, int capacity)
+        public ReferenceDictionary(ReferenceStrength keyReferenceStrength, ReferenceStrength valueReferenceStrength, int capacity) : this(keyReferenceStrength, valueReferenceStrength, capacity, null)
+        {
+        }
+
+        /// <summary>
+        /// Construct an object that stores the source elements as the initial value.
+        /// Elements are keyed by strong references and valued by weak references.
+        /// </summary>
+        /// <param name="src">initial elements.</param>
+        public ReferenceDictionary(IEnumerable<KeyValuePair<K, V>> src) : this(src, null)
+        {
+        }
+
+        /// <summary>
+        /// Construct an instance that hold keys by strong reference and values by weak reference.
+        /// </summary>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ReferenceDictionary(IEqualityComparer<K>? comparer) : this(ReferenceStrength.Hard, ReferenceStrength.Weak, 0, comparer)
+        {
+        }
+
+        /// <summary>
+        /// Construct an instance that hold keys by strong reference and values by weak reference.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ReferenceDictionary(int capacity, IEqualityComparer<K>? comparer) : this(ReferenceStrength.Hard, ReferenceStrength.Weak, capacity, comparer)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an instance that holds keys and values with the specified reference strength.
+        /// </summary>
+        /// <param name="keyReferenceStrength">The reference strength of keys.</param>
+        /// <param name="valueReferenceStrength">The reference strength of values.</param>
+        /// <param name="capacity">Initial capacity of the collection.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ReferenceDictionary(ReferenceStrength keyReferenceStrength, ReferenceStrength valueReferenceStrength, int capacity, IEqualityComparer<K>? comparer)
         {
             _dic = new HashMap<int, LinkedList<ReferenceEntry<K, V>>>(capacity);
+            _equalityComparer = comparer ?? EqualityComparer<K>.Default;
             KeyReferenceStrength = keyReferenceStrength;
             ValueReferenceStrength = valueReferenceStrength;
         }
@@ -62,7 +101,8 @@ namespace RockHouse.Collections.Dictionaries
         /// Elements are keyed by strong references and valued by weak references.
         /// </summary>
         /// <param name="src">initial elements.</param>
-        public ReferenceDictionary(IEnumerable<KeyValuePair<K, V>> src) : this(ReferenceStrength.Hard, ReferenceStrength.Weak, 0)
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ReferenceDictionary(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer) : this(ReferenceStrength.Hard, ReferenceStrength.Weak, 0, comparer)
         {
             this.AddAll(src);
         }
@@ -94,8 +134,9 @@ namespace RockHouse.Collections.Dictionaries
         /// <returns></returns>
         private IEnumerable<KeyValuePair<K, V>> ScanByKey(K key)
         {
-            return ScanByKeyHash(key.GetHashCode())
-                .Where(e => e.Key.Equals(key)); ;
+            var keyHash = _equalityComparer.GetHashCode(key);
+            return ScanByKeyHash(keyHash)
+                .Where(e => _equalityComparer.Equals(e.Key, key));
         }
 
         /// <summary>
@@ -139,7 +180,7 @@ namespace RockHouse.Collections.Dictionaries
         /// <inheritdoc/>
         protected override bool Update(K key, V value)
         {
-            var keyHash = key.GetHashCode();
+            var keyHash = _equalityComparer.GetHashCode(key);
             if (!_dic.TryGetValue(keyHash, out var bucket))
             {
                 return false;
@@ -187,7 +228,7 @@ namespace RockHouse.Collections.Dictionaries
         /// <inheritdoc/>
         public override void Add(K key, V value)
         {
-            var keyHash = key.GetHashCode();
+            var keyHash = _equalityComparer.GetHashCode(key);
             var bucket = _dic.Get(keyHash, ifNotFound: (hash) =>
             {
                 var bucket = new LinkedList<ReferenceEntry<K, V>>();
@@ -199,7 +240,7 @@ namespace RockHouse.Collections.Dictionaries
                 throw new ArgumentException($"The specified key already exists.");
             }
 
-            var entry = new ReferenceEntry<K, V>(this.KeyReferenceStrength, key, this.ValueReferenceStrength, value);
+            var entry = new ReferenceEntry<K, V>(this.KeyReferenceStrength, key, this.ValueReferenceStrength, value, _equalityComparer);
             bucket.AddLast(entry);
         }
 
@@ -218,7 +259,7 @@ namespace RockHouse.Collections.Dictionaries
         /// <inheritdoc/>
         public override bool Remove(K key)
         {
-            var keyHash = key.GetHashCode();
+            var keyHash = _equalityComparer.GetHashCode(key);
             if (!_dic.TryGetValue(keyHash, out var bucket))
             {
                 return false;

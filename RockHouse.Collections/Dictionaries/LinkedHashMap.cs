@@ -29,5 +29,25 @@ namespace RockHouse.Collections.Dictionaries
         /// </summary>
         /// <param name="src">Source of the initial value.</param>
         public LinkedHashMap(IEnumerable<KeyValuePair<K, V>> src) : base(src) { }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public LinkedHashMap(IEqualityComparer<K>? comparer) : base(comparer) { }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public LinkedHashMap(int capacity, IEqualityComparer<K>? comparer) : base(capacity, comparer) { }
+
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public LinkedHashMap(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer) : base(src, comparer) { }
     }
 }

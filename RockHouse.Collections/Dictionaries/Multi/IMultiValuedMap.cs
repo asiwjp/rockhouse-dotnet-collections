@@ -16,6 +16,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// Copy all elements into the collection.
         /// The behavior of this method is the same as PutAll.
         /// </summary>
+        /// <param name="key">Key associated with the src.</param>
         /// <param name="src">The enumerable from which to copy.</param>
         bool AddAll(K key, IEnumerable<V> src);
 
@@ -48,6 +49,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// Copy all elements into the collection.
         /// The behavior of this method is the same as AddAll.
         /// </summary>
+        /// <param name="key">Key associated with the src.</param>
         /// <param name="src">The enumerable from which to copy.</param>
         bool PutAll(K key, IEnumerable<V> src);
     }

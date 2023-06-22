@@ -1,5 +1,6 @@
 ﻿using RockHouse.Collections.ReferenceHolders;
 using System;
+using System.Collections;
 
 namespace RockHouse.Collections
 {
@@ -23,7 +24,7 @@ namespace RockHouse.Collections
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
-        internal virtual AbstractReferenceHolder Hold(object instance)
+        internal virtual AbstractReferenceHolder Hold(object instance, IEqualityComparer? comparer)
         {
             throw new NotImplementedException();
         }
@@ -34,9 +35,9 @@ namespace RockHouse.Collections
     /// </summary>
     public sealed class HardReferenceStrength : ReferenceStrength
     {
-        internal override AbstractReferenceHolder Hold(object instance)
+        internal override AbstractReferenceHolder Hold(object instance, IEqualityComparer? comparer)
         {
-            return new HardReferenceHolder(instance);
+            return new HardReferenceHolder(instance, comparer);
         }
     }
 
@@ -45,9 +46,9 @@ namespace RockHouse.Collections
     /// </summary>
     public sealed class WeakReferenceStrength : ReferenceStrength
     {
-        internal override AbstractReferenceHolder Hold(object instance)
+        internal override AbstractReferenceHolder Hold(object instance, IEqualityComparer? comparer)
         {
-            return new WeakReferenceHolder(instance);
+            return new WeakReferenceHolder(instance, comparer);
         }
     }
 }

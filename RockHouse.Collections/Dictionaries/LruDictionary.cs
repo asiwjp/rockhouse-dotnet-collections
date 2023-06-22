@@ -15,6 +15,11 @@ namespace RockHouse.Collections.Dictionaries
     public class LruDictionary<K, V> : LinkedOrderedDictionary<K, V>, IDisposable
     {
         /// <summary>
+        /// Default value of capacity.
+        /// </summary>
+        protected const int DefaultCapacity = 100;
+
+        /// <summary>
         /// Arguments of the Removed event.
         /// </summary>
         public class LruRemovedEventArgs : EventArgs
@@ -54,10 +59,10 @@ namespace RockHouse.Collections.Dictionaries
         public int Capacity { get; }
 
         /// <summary>
-        /// Construct by default settings.
-        /// capacity is 100.
+        /// Construct by default capacity(100).
+        /// Unlike most collection classes, capacity is used as an upper limit on the number of objects that can be stored.
         /// </summary>
-        public LruDictionary() : this(100)
+        public LruDictionary() : this(DefaultCapacity, null)
         {
         }
 
@@ -66,7 +71,35 @@ namespace RockHouse.Collections.Dictionaries
         /// Unlike most collection classes, capacity is used as an upper limit on the number of objects that can be stored.
         /// </summary>
         /// <param name="capacity">The maximum number of objects that can be stored.</param>
-        public LruDictionary(int capacity) : base(capacity)
+        public LruDictionary(int capacity) : this(capacity, null)
+        {
+        }
+
+        /// <summary>
+        /// Construct an object that stores the source elements as the initial value.
+        /// Capacity is set equal to the number of source elements.
+        /// </summary>
+        /// <param name="src">initial elements.</param>
+        public LruDictionary(IEnumerable<KeyValuePair<K, V>> src) : this(src, null)
+        {
+        }
+
+        /// <summary>
+        /// Construct by default capacity(100).
+        /// Unlike most collection classes, capacity is used as an upper limit on the number of objects that can be stored.
+        /// </summary>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public LruDictionary(IEqualityComparer<K>? comparer) : this(DefaultCapacity, comparer)
+        {
+        }
+
+        /// <summary>
+        /// Construct by specifying capacity.
+        /// Unlike most collection classes, capacity is used as an upper limit on the number of objects that can be stored.
+        /// </summary>
+        /// <param name="capacity">The maximum number of objects that can be stored.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public LruDictionary(int capacity, IEqualityComparer<K>? comparer) : base(capacity, comparer)
         {
             this.Capacity = capacity;
         }
@@ -76,7 +109,8 @@ namespace RockHouse.Collections.Dictionaries
         /// Capacity is set equal to the number of source elements.
         /// </summary>
         /// <param name="src">initial elements.</param>
-        public LruDictionary(IEnumerable<KeyValuePair<K, V>> src)
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public LruDictionary(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer) : this(0, comparer)
         {
             foreach (var entry in src)
             {
@@ -84,7 +118,6 @@ namespace RockHouse.Collections.Dictionaries
                 this.Add(entry);
             }
         }
-
         /// <inheritdoc/>
         protected override bool Update(K key, V value)
         {

@@ -22,7 +22,7 @@ namespace RockHouse.Collections.Dictionaries
         /// <summary>
         /// Constructs an empty instance.
         /// </summary>
-        public ListOrderedDictionary() : this(0)
+        public ListOrderedDictionary() : this(0, null)
         {
         }
 
@@ -30,9 +30,34 @@ namespace RockHouse.Collections.Dictionaries
         /// Constructs an empty instance with the specified arguments.
         /// </summary>
         /// <param name="capacity">Initial capacity of the collection.</param>
-        public ListOrderedDictionary(int capacity)
+        public ListOrderedDictionary(int capacity) : this(capacity, null)
         {
-            _dic = new Dictionary<K, Slot<V, int>>(capacity);
+        }
+
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
+        public ListOrderedDictionary(IEnumerable<KeyValuePair<K, V>> src) : this(src, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ListOrderedDictionary(IEqualityComparer<K>? comparer) : this(0, comparer)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ListOrderedDictionary(int capacity, IEqualityComparer<K>? comparer)
+        {
+            _dic = new Dictionary<K, Slot<V, int>>(capacity, comparer);
             _orderedKeys = new List<K>(capacity);
         }
 
@@ -40,7 +65,8 @@ namespace RockHouse.Collections.Dictionaries
         /// Constructs an instance with the elements specified in the source.
         /// </summary>
         /// <param name="src">Source of the initial value.</param>
-        public ListOrderedDictionary(IEnumerable<KeyValuePair<K, V>> src) : this(0)
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ListOrderedDictionary(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer) : this(0, comparer)
         {
             this.AddAll(src);
         }

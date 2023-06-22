@@ -21,6 +21,21 @@ namespace RockHouse.Collections.Tests.Dictionaries
             return new LinkedHashMap<string, int>(dictionary);
         }
 
+        public override IHashMap<K, V> NewInstance<K, V>(IEqualityComparer<K>? comparer)
+        {
+            return new LinkedHashMap<K, V>(comparer);
+        }
+
+        public override IHashMap<K, V> NewInstance<K, V>(int capacity, IEqualityComparer<K>? comparer)
+        {
+            return new LinkedHashMap<K, V>(capacity, comparer);
+        }
+
+        public override IHashMap<K, V> NewInstance<K, V>(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer)
+        {
+            return new LinkedHashMap<K, V>(src, comparer);
+        }
+
         public override IHashMap<K, V> Deserialize_BySystemTextJson<K, V>(string json)
         {
             return JsonSerializer.Deserialize<LinkedHashMap<K, V>>(json);

@@ -12,6 +12,9 @@ namespace RockHouse.Collections.Tests.Dictionaries
         public abstract IHashMap<K, V> NewInstance<K, V>();
         public abstract IHashMap<string, int> NewInstance(int capacity);
         public abstract IHashMap<string, int> NewInstance(IEnumerable<KeyValuePair<string, int>> dictionary);
+        public abstract IHashMap<K, V> NewInstance<K, V>(IEqualityComparer<K>? comparer);
+        public abstract IHashMap<K, V> NewInstance<K, V>(int capacity, IEqualityComparer<K>? comparer);
+        public abstract IHashMap<K, V> NewInstance<K, V>(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer);
         public abstract IHashMap<K, V> Deserialize_BySystemTextJson<K, V>(string json);
         public abstract string Serialize_BySystemTextJson<K, V>(IHashMap<K, V> dictionary);
 
@@ -51,6 +54,30 @@ namespace RockHouse.Collections.Tests.Dictionaries
                 new KeyValuePair<string, int>("b", 11 ),
                 new KeyValuePair<string, int>("b", 11 ),
             }));
+        }
+
+        [Fact]
+        public void Test___ctor_with_equalityComparer()
+        {
+            var col1 = NewInstance<string, int>(new IgnoreCaseStringComparer());
+            col1.Add("a", 1);
+            Assert.Equal(1, col1["A"]);
+            col1.Remove("A");
+            Assert.Empty(col1);
+
+            var col2 = NewInstance<string, int>(5, new IgnoreCaseStringComparer());
+            col2.Add("a", 2);
+            Assert.Equal(2, col2["A"]);
+            col2.Remove("A");
+            Assert.Empty(col2);
+
+            var col3 = NewInstance<string, int>(new Dictionary<string, int>
+            {
+                { "a", 3 }
+            }, new IgnoreCaseStringComparer());
+            Assert.Equal(3, col3["A"]);
+            col3.Remove("A");
+            Assert.Empty(col3);
         }
 
         [Fact]

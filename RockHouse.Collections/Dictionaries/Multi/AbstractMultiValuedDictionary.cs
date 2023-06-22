@@ -25,7 +25,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// <summary>
         /// Constructs an empty instance.
         /// </summary>
-        public AbstractMultiValuedDictionary() : this(0)
+        public AbstractMultiValuedDictionary() : this(0, null)
         {
         }
 
@@ -33,16 +33,42 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// Constructs an empty instance with the specified arguments.
         /// </summary>
         /// <param name="capacity">Initial capacity of the collection.</param>
-        public AbstractMultiValuedDictionary(int capacity)
+        public AbstractMultiValuedDictionary(int capacity) : this(capacity, null)
         {
-            _dic = new Dictionary<K, C>(capacity);
         }
 
         /// <summary>
         /// Constructs an instance with the elements specified in the source.
         /// </summary>
         /// <param name="src">Source of the initial value.</param>
-        public AbstractMultiValuedDictionary(IEnumerable<KeyValuePair<K, V>> src) : this(0)
+        public AbstractMultiValuedDictionary(IEnumerable<KeyValuePair<K, V>> src) : this(src, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public AbstractMultiValuedDictionary(IEqualityComparer<K>? comparer) : this(0, comparer)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public AbstractMultiValuedDictionary(int capacity, IEqualityComparer<K>? comparer)
+        {
+            _dic = new Dictionary<K, C>(capacity, comparer);
+        }
+
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public AbstractMultiValuedDictionary(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer) : this(0, comparer)
         {
             foreach (var item in src)
             {
