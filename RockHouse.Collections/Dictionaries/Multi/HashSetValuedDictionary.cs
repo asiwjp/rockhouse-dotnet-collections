@@ -19,9 +19,14 @@ namespace RockHouse.Collections.Dictionaries.Multi
         private static readonly HashSet<V> _emptyValues = new HashSet<V>();
 
         /// <summary>
+        /// A comparer that compares keys.
+        /// </summary>
+        protected IEqualityComparer<V> ValueEqualityComparer { get;  }
+
+        /// <summary>
         /// Constructs an empty instance.
         /// </summary>
-        public HashSetValuedDictionary() : base(0, null)
+        public HashSetValuedDictionary() : this(0, null, null)
         {
         }
 
@@ -29,7 +34,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// Constructs an empty instance with the specified arguments.
         /// </summary>
         /// <param name="capacity">Initial capacity of the collection.</param>
-        public HashSetValuedDictionary(int capacity) : base(capacity, null)
+        public HashSetValuedDictionary(int capacity) : this(capacity, null, null)
         {
         }
 
@@ -37,15 +42,16 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// Constructs an instance with the elements specified in the source.
         /// </summary>
         /// <param name="src">Source of the initial value.</param>
-        public HashSetValuedDictionary(IEnumerable<KeyValuePair<K, V>> src) : base(src, null)
+        public HashSetValuedDictionary(IEnumerable<KeyValuePair<K, V>> src) : this(src, null, null)
         {
         }
 
         /// <summary>
         /// Constructs an empty instance with the specified arguments.
         /// </summary>
-        /// <param name="comparer">A comparer that compares keys.</param>
-        public HashSetValuedDictionary(IEqualityComparer<K>? comparer) : base(0, comparer)
+        /// <param name="keyComparer">A comparer that compares keys.</param>
+        /// <param name="valueComparer">A comparer that compares values.</param>
+        public HashSetValuedDictionary(IEqualityComparer<K>? keyComparer, IEqualityComparer<V>? valueComparer) : this(0, keyComparer, valueComparer)
         {
         }
 
@@ -53,18 +59,25 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// Constructs an empty instance with the specified arguments.
         /// </summary>
         /// <param name="capacity">Initial capacity of the collection.</param>
-        /// <param name="comparer">A comparer that compares keys.</param>
-        public HashSetValuedDictionary(int capacity, IEqualityComparer<K>? comparer) : base(capacity, comparer)
+        /// <param name="keyComparer">A comparer that compares keys.</param>
+        /// <param name="valueComparer">A comparer that compares values.</param>
+        public HashSetValuedDictionary(int capacity, IEqualityComparer<K>? keyComparer, IEqualityComparer<V>? valueComparer) : base(capacity, keyComparer)
         {
+            this.ValueEqualityComparer = valueComparer;
         }
 
         /// <summary>
         /// Constructs an instance with the elements specified in the source.
         /// </summary>
         /// <param name="src">Source of the initial value.</param>
-        /// <param name="comparer">A comparer that compares keys.</param>
-        public HashSetValuedDictionary(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? comparer) : base(src, comparer)
+        /// <param name="keyComparer">A comparer that compares keys.</param>
+        /// <param name="valueComparer">A comparer that compares values.</param>
+        public HashSetValuedDictionary(IEnumerable<KeyValuePair<K, V>> src, IEqualityComparer<K>? keyComparer, IEqualityComparer<V>? valueComparer) : this(0, keyComparer, valueComparer)
         {
+            foreach (var item in src)
+            {
+                this.Add(item);
+            }
         }
 
         /// <inheritdoc/>
@@ -73,7 +86,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// <inheritdoc/>
         protected override ISet<V> CreateValues()
         {
-            return new LinkedHashSet<V>();
+            return new LinkedHashSet<V>(this.ValueEqualityComparer);
         }
 
         /// <inheritdoc/>
