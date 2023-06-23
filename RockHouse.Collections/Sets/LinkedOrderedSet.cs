@@ -19,7 +19,7 @@ namespace RockHouse.Collections.Sets
         /// <summary>
         /// Constructs an empty instance.
         /// </summary>
-        public LinkedOrderedSet() : this(0)
+        public LinkedOrderedSet() : this(0, null)
         {
         }
 
@@ -27,9 +27,34 @@ namespace RockHouse.Collections.Sets
         /// Constructs an empty instance with the specified arguments.
         /// </summary>
         /// <param name="capacity">Initial capacity of the collection.</param>
-        public LinkedOrderedSet(int capacity)
+        public LinkedOrderedSet(int capacity) : this(capacity, null)
         {
-            this._dic = new Dictionary<ValueTuple<T>, LinkedListNode<T>>(capacity);
+        }
+
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
+        public LinkedOrderedSet(IEnumerable<T> src) : this(src, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public LinkedOrderedSet(IEqualityComparer<T>? comparer) : this(0, comparer)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public LinkedOrderedSet(int capacity, IEqualityComparer<T>? comparer) : base(comparer)
+        {
+            this._dic = new Dictionary<ValueTuple<T>, LinkedListNode<T>>(capacity, new InternalEqualityComparer<T>(comparer));
             this._list = new LinkedList<T>();
         }
 
@@ -37,7 +62,8 @@ namespace RockHouse.Collections.Sets
         /// Constructs an instance with the elements specified in the source.
         /// </summary>
         /// <param name="src">Source of the initial value.</param>
-        public LinkedOrderedSet(IEnumerable<T> src) : this(0)
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public LinkedOrderedSet(IEnumerable<T> src, IEqualityComparer<T>? comparer) : this(0, comparer)
         {
             this.AddAll(src);
         }

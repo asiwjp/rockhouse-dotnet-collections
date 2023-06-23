@@ -23,6 +23,7 @@ namespace RockHouse.Collections
         /// Returns a Holder that holds the instance specified in the argument, with the reference strength indicated by the object.
         /// </summary>
         /// <param name="instance"></param>
+        /// <param name="comparer"></param>
         /// <returns></returns>
         internal virtual AbstractReferenceHolder Hold(object instance, IEqualityComparer? comparer)
         {

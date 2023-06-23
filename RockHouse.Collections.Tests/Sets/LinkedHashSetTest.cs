@@ -26,6 +26,21 @@ namespace RockHouse.Collections.Tests.Sets
             return new LinkedHashSet<string>(src);
         }
 
+        public override AbstractOrderedSet<T> NewInstance<T>(IEqualityComparer<T>? comparer)
+        {
+            return new LinkedHashSet<T>(comparer);
+        }
+
+        public override AbstractOrderedSet<T> NewInstance<T>(int capacity, IEqualityComparer<T>? comparer)
+        {
+            return new LinkedHashSet<T>(capacity, comparer);
+        }
+
+        public override AbstractOrderedSet<T> NewInstance<T>(IEnumerable<T> src, IEqualityComparer<T>? comparer)
+        {
+            return new LinkedHashSet<T>(src, comparer);
+        }
+
         public override AbstractOrderedSet<T> Deserialize_BySystemTextJson<T>(string json)
         {
             return JsonSerializer.Deserialize<LinkedHashSet<T>>(json);

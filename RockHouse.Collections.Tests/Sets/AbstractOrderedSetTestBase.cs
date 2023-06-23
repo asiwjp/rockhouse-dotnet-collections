@@ -13,6 +13,9 @@ namespace RockHouse.Collections.Tests.Sets
         public abstract AbstractOrderedSet<T> NewInstance<T>(int capacity);
         public abstract AbstractOrderedSet<string> NewInstance(IEnumerable<string> src);
         public abstract AbstractOrderedSet<string> NewInstance(ISet<string> src);
+        public abstract AbstractOrderedSet<T> NewInstance<T>(IEqualityComparer<T>? comparer);
+        public abstract AbstractOrderedSet<T> NewInstance<T>(int capacity, IEqualityComparer<T>? comparer);
+        public abstract AbstractOrderedSet<T> NewInstance<T>(IEnumerable<T> src, IEqualityComparer<T>? comparer);
         public abstract AbstractOrderedSet<T> Deserialize_BySystemTextJson<T>(string json);
         public abstract string Serialize_BySystemTextJson<T>(AbstractOrderedSet<T> src);
 
@@ -60,6 +63,31 @@ namespace RockHouse.Collections.Tests.Sets
 
             Assert.Equal(2, col.Count);
             Assert.Equal(new string[] { "b", "a" }, col.ToArray());
+        }
+
+        [Fact]
+        public void Test___equalityComparer()
+        {
+            var col1 = NewInstance<string>(new IgnoreCaseStringComparer());
+            col1.Add("a");
+            Assert.Contains("a", col1);
+            Assert.Contains("A", col1);
+
+            Assert.False(col1.Add("A"));
+            Assert.Equal("a", col1.First);
+
+            Assert.True(col1.Remove("A"));
+            Assert.Empty(col1);
+
+            var col2 = NewInstance<string>(5, new IgnoreCaseStringComparer());
+            col2.Add("a");
+            Assert.Contains("a", col2);
+            Assert.Contains("A", col2);
+
+            var col3 = NewInstance<string>(new string[] { "A" }, new IgnoreCaseStringComparer());
+            col2.Add("a");
+            Assert.Contains("a", col2);
+            Assert.Contains("A", col2);
         }
 
         [Fact]
@@ -483,7 +511,6 @@ namespace RockHouse.Collections.Tests.Sets
             std.ExceptWith(otherValues);
             var stdResult = std.ToArray();
             Assert.Equal(stdResult, actual);
-
         }
 
         [Fact]
@@ -491,6 +518,30 @@ namespace RockHouse.Collections.Tests.Sets
         {
             var col = NewInstance();
             Assert.Throws<ArgumentNullException>(() => col.ExceptWith(null));
+        }
+
+        [Theory]
+        [InlineData("", "a", "A")]
+        [InlineData("", "A", "a")]
+        public void Test_ExceptWith_with_equalityComparer(string srcExpected, string srcValues, string srcOtherValues)
+        {
+            var expected = srcExpected.Split('.').Where(s => s != "").ToArray();
+            var values = srcValues.Split('.').Where(s => s != "").ToArray();
+            var otherValues = srcOtherValues.Split('.').Where(s => s != "").ToArray();
+
+            var col = NewInstance(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            col.ExceptWith(otherValues);
+            var actual = col.ToArray();
+
+            Assert.Equal(expected, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            std.ExceptWith(otherValues);
+            var stdResult = std.ToArray();
+            Assert.Equal(stdResult, actual);
         }
 
         [Theory]
@@ -550,6 +601,30 @@ namespace RockHouse.Collections.Tests.Sets
             Assert.Equal(stdResult, actual);
         }
 
+        [Theory]
+        [InlineData("a", "a", "A")]
+        [InlineData("A", "A", "a")]
+        [InlineData("", "a", "c")]
+        public void Test_IntersectWith_with_equalityComparer(string srcExpected, string srcValues, string srcOtherValues)
+        {
+            var expected = srcExpected.Split('.').Where(s => s != "").ToArray();
+            var values = srcValues.Split('.').Where(s => s != "").ToArray();
+            var otherValues = srcOtherValues.Split('.').Where(s => s != "").ToArray();
+
+            var col = NewInstance<string>(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            col.IntersectWith(otherValues);
+            var actual = col.ToArray();
+
+            Assert.Equal(expected, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            std.IntersectWith(otherValues);
+            var stdResult = std.ToArray();
+            Assert.Equal(stdResult, actual);
+        }
 
         [Theory]
         [InlineData(false, "a.c.e", "a.c.e")]
@@ -566,7 +641,7 @@ namespace RockHouse.Collections.Tests.Sets
             col.AddAll(values);
 
             var actual = col.IsProperSubsetOf(otherValues);
-            //Assert.Equal(excepted, actual);
+            Assert.Equal(excepted, actual);
 
             // StandardClass compatibility
             var std = new HashSet<string>(values);
@@ -594,6 +669,26 @@ namespace RockHouse.Collections.Tests.Sets
             // StandardClass compatibility
             var std = new HashSet<string>(values);
             var stdResult = std.IsProperSubsetOf(std);
+            Assert.Equal(stdResult, actual);
+        }
+
+        [Theory]
+        [InlineData(true, "a", "A.c")]
+        [InlineData(true, "A", "a.c")]
+        public void Test_IsProperSubsetOf_with_equalityComparer(bool excepted, string srcValues, string srcOtherValues)
+        {
+            var values = srcValues.Split('.').Where(v => v != "");
+            var otherValues = srcOtherValues.Split('.').Where(v => v != "");
+
+            var col = NewInstance<string>(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            var actual = col.IsProperSubsetOf(otherValues);
+            Assert.Equal(excepted, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            var stdResult = std.IsProperSubsetOf(otherValues);
             Assert.Equal(stdResult, actual);
         }
 
@@ -640,6 +735,26 @@ namespace RockHouse.Collections.Tests.Sets
             // StandardClass compatibility
             var std = new HashSet<string>(values);
             var stdResult = std.IsProperSupersetOf(std);
+            Assert.Equal(stdResult, actual);
+        }
+
+        [Theory]
+        [InlineData(true, "a.c", "A")]
+        [InlineData(true, "A.c", "a")]
+        public void Test_IsProperSupersetOf_with_equalityComparer(bool excepted, string srcValues, string srcOtherValues)
+        {
+            var values = srcValues.Split('.').Where(v => v != "");
+            var otherValues = srcOtherValues.Split('.').Where(v => v != "");
+
+            var col = NewInstance<string>(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            var actual = col.IsProperSupersetOf(otherValues);
+            Assert.Equal(excepted, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            var stdResult = std.IsProperSupersetOf(otherValues);
             Assert.Equal(stdResult, actual);
         }
 
@@ -692,6 +807,26 @@ namespace RockHouse.Collections.Tests.Sets
         }
 
         [Theory]
+        [InlineData(true, "a", "A.c")]
+        [InlineData(true, "A", "a.c")]
+        public void Test_IsSubsetOf_with_equalityComparer(bool excepted, string srcValues, string srcOtherValues)
+        {
+            var values = srcValues.Split('.').Where(v => v != "");
+            var otherValues = srcOtherValues.Split('.').Where(v => v != "");
+
+            var col = NewInstance<string>(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            var actual = col.IsSubsetOf(otherValues);
+            Assert.Equal(excepted, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            var stdResult = std.IsSubsetOf(otherValues);
+            Assert.Equal(stdResult, actual);
+        }
+
+        [Theory]
         [InlineData(true, "a.c.e", "a.c.e")]
         [InlineData(false, "a.c", "a.c.e")]
         [InlineData(true, "a.c.e", "a.c")]
@@ -734,6 +869,26 @@ namespace RockHouse.Collections.Tests.Sets
             // StandardClass compatibility
             var std = new HashSet<string>(values);
             var stdResult = std.IsSupersetOf(std);
+            Assert.Equal(stdResult, actual);
+        }
+
+        [Theory]
+        [InlineData(true, "a.c", "A")]
+        [InlineData(true, "A.c", "a")]
+        public void Test_IsSupersetOf_with_equalityComparer(bool excepted, string srcValues, string srcOtherValues)
+        {
+            var values = srcValues.Split('.').Where(v => v != "");
+            var otherValues = srcOtherValues.Split('.').Where(v => v != "");
+
+            var col = NewInstance<string>(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            var actual = col.IsSupersetOf(otherValues);
+            Assert.Equal(excepted, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            var stdResult = std.IsSupersetOf(otherValues);
             Assert.Equal(stdResult, actual);
         }
 
@@ -784,6 +939,26 @@ namespace RockHouse.Collections.Tests.Sets
         }
 
         [Theory]
+        [InlineData(true, "a", "A")]
+        [InlineData(true, "A", "a")]
+        public void Test_Overlaps_with_equalityComparer(bool excepted, string srcValues, string srcOtherValues)
+        {
+            var values = srcValues.Split('.').Where(v => v != "");
+            var otherValues = srcOtherValues.Split('.').Where(v => v != "");
+
+            var col = NewInstance<string>(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            var actual = col.Overlaps(otherValues);
+            Assert.Equal(excepted, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            var stdResult = std.Overlaps(otherValues);
+            Assert.Equal(stdResult, actual);
+        }
+
+        [Theory]
         [InlineData(true, "a.c", "a.c")]
         [InlineData(true, "a", "a.a")]
         [InlineData(false, "c", "a.c")]
@@ -828,6 +1003,26 @@ namespace RockHouse.Collections.Tests.Sets
             // StandardClass compatibility
             var std = new HashSet<string>(values);
             var stdResult = std.SetEquals(std);
+            Assert.Equal(stdResult, actual);
+        }
+
+        [Theory]
+        [InlineData(true, "a", "A")]
+        [InlineData(true, "A", "a")]
+        public void Test_SetEquals_equalityComparer(bool excepted, string srcValues, string srcOtherValues)
+        {
+            var values = srcValues.Split('.').Where(v => v != "");
+            var otherValues = srcOtherValues.Split('.').Where(v => v != "");
+
+            var col = NewInstance<string>(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            var actual = col.SetEquals(otherValues);
+            Assert.Equal(excepted, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            var stdResult = std.SetEquals(otherValues);
             Assert.Equal(stdResult, actual);
         }
 
@@ -884,6 +1079,29 @@ namespace RockHouse.Collections.Tests.Sets
         }
 
         [Theory]
+        [InlineData("", "a", "A")]
+        [InlineData("", "A", "a")]
+        public void Test_SymmetricExceptWith_with_equalityComparer(string srcExcepted, string srcValues, string srcOtherValues)
+        {
+            var expected = srcExcepted.Split('.').Where(v => v != "").ToArray();
+            var values = srcValues.Split('.').Where(v => v != "");
+            var otherValues = srcOtherValues.Split('.').Where(v => v != "");
+
+            var col = NewInstance<string>(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            col.SymmetricExceptWith(otherValues);
+            var actual = col.ToArray();
+            Assert.Equal(expected, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            std.SymmetricExceptWith(otherValues);
+            var stdResult = std.ToArray();
+            Assert.Equal(stdResult, actual);
+        }
+
+        [Theory]
         [InlineData("a.c", "a.c", "a.c")]
         [InlineData("c.a", "c", "a.c")]
         [InlineData("a.c", "a.c", "c")]
@@ -931,6 +1149,29 @@ namespace RockHouse.Collections.Tests.Sets
             // StandardClass compatibility
             var std = new HashSet<string>(values);
             std.UnionWith(std);
+            var stdResult = std.ToArray();
+            Assert.Equal(stdResult, actual);
+        }
+
+        [Theory]
+        [InlineData("a", "a", "A")]
+        [InlineData("A", "A", "a")]
+        public void Test_UnionWith_with_equalityComparer(string srcExcepted, string srcValues, string srcOtherValues)
+        {
+            var expected = srcExcepted.Split('.').Where(v => v != "").ToArray();
+            var values = srcValues.Split('.').Where(v => v != "");
+            var otherValues = srcOtherValues.Split('.').Where(v => v != "");
+
+            var col = NewInstance<string>(new IgnoreCaseStringComparer());
+            col.AddAll(values);
+
+            col.UnionWith(otherValues);
+            var actual = col.ToArray();
+            Assert.Equal(expected, actual);
+
+            // StandardClass compatibility
+            var std = new HashSet<string>(values, new IgnoreCaseStringComparer());
+            std.UnionWith(otherValues);
             var stdResult = std.ToArray();
             Assert.Equal(stdResult, actual);
         }

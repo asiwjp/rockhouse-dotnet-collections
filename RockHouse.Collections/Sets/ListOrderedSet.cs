@@ -19,7 +19,7 @@ namespace RockHouse.Collections.Sets
         /// <summary>
         /// Constructs an empty instance.
         /// </summary>
-        public ListOrderedSet() : this(0)
+        public ListOrderedSet() : this(0, null)
         {
         }
 
@@ -27,9 +27,34 @@ namespace RockHouse.Collections.Sets
         /// Constructs an empty instance with the specified arguments.
         /// </summary>
         /// <param name="capacity">Initial capacity of the collection.</param>
-        public ListOrderedSet(int capacity)
+        public ListOrderedSet(int capacity) : this(capacity, null)
         {
-            this._dic = new Dictionary<ValueTuple<T>, int>(capacity);
+        }
+
+        /// <summary>
+        /// Constructs an instance with the elements specified in the source.
+        /// </summary>
+        /// <param name="src">Source of the initial value.</param>
+        public ListOrderedSet(IEnumerable<T> src) : this(src, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ListOrderedSet(IEqualityComparer<T>? comparer) : this(0, comparer)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an empty instance with the specified arguments.
+        /// </summary>
+        /// <param name="capacity">Initial capacity of the collection.</param>
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ListOrderedSet(int capacity, IEqualityComparer<T>? comparer) : base(comparer)
+        {
+            this._dic = new Dictionary<ValueTuple<T>, int>(capacity, new InternalEqualityComparer<T>(comparer));
             this._list = new List<T>(capacity);
         }
 
@@ -37,7 +62,8 @@ namespace RockHouse.Collections.Sets
         /// Constructs an instance with the elements specified in the source.
         /// </summary>
         /// <param name="src">Source of the initial value.</param>
-        public ListOrderedSet(IEnumerable<T> src) : this(0)
+        /// <param name="comparer">A comparer that compares keys.</param>
+        public ListOrderedSet(IEnumerable<T> src, IEqualityComparer<T>? comparer) : this(0, comparer)
         {
             this.AddAll(src);
         }

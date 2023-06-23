@@ -10,6 +10,20 @@ namespace RockHouse.Collections.Sets
     /// <typeparam name="T">The type of elements.</typeparam>
     public abstract class AbstractSet<T> : AbstractCollection, IHashSet<T>
     {
+        /// <summary>
+        /// A comparer that compares elements.
+        /// </summary>
+        protected IEqualityComparer<T> EqualityComparer { get; }
+
+        /// <summary>
+        /// Constructs an instance with the specified arguments.
+        /// </summary>
+        /// <param name="comparer">A comparer that compares elements.</param>
+        protected AbstractSet(IEqualityComparer<T>? comparer)
+        {
+            this.EqualityComparer = comparer ?? EqualityComparer<T>.Default;
+        }
+
         /// <inheritdoc/>
         public override bool IsEmpty { get => this.Count == 0; }
 
@@ -110,11 +124,7 @@ namespace RockHouse.Collections.Sets
                 return;
             }
 
-            ISet<T> otherSet = other as ISet<T>;
-            if (otherSet == null)
-            {
-                otherSet = new HashSet<T>(other);
-            }
+            var otherSet = new HashSet<T>(other, this.EqualityComparer);
             foreach (var o in this.ToList())
             {
                 if (!otherSet.Contains(o))
@@ -202,7 +212,7 @@ namespace RockHouse.Collections.Sets
                 return true;
             }
 
-            var otherSet = new HashSet<T>(other);
+            var otherSet = new HashSet<T>(other, this.EqualityComparer);
             return otherSet.IsSupersetOf(this);
         }
 
@@ -271,19 +281,16 @@ namespace RockHouse.Collections.Sets
             }
 
             var thisCount = this.Count;
-            var matched = new HashSet<T>();
-            checked
+            var matched = new HashSet<T>(this.EqualityComparer);
+            foreach (var o in other)
             {
-                foreach (var o in other)
+                if (!this.Contains(o))
                 {
-                    if (!this.Contains(o))
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        matched.Add(o);
-                    }
+                    return false;
+                }
+                else
+                {
+                    matched.Add(o);
                 }
             }
             return matched.Count == thisCount;
