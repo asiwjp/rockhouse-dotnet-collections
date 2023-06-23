@@ -241,6 +241,17 @@ namespace RockHouse.Collections.Dictionaries.Multi
         }
 
         /// <inheritdoc/>
+        public bool AddAll(IEnumerable<KeyValuePair<K, V>> src)
+        {
+            var result = false;
+            foreach (var item in src)
+            {
+                result |= this.Put(item.Key, item.Value);
+            }
+            return result;
+        }
+
+        /// <inheritdoc/>
         public bool ContainsKey(K key)
         {
             return _dic.ContainsKey(key);
@@ -282,6 +293,9 @@ namespace RockHouse.Collections.Dictionaries.Multi
 
         /// <inheritdoc/>
         public bool PutAll(K key, IEnumerable<V> src) => this.AddAll(key, src);
+
+        /// <inheritdoc/>
+        public bool PutAll(IEnumerable<KeyValuePair<K, V>> src) => this.AddAll(src);
         #endregion
 
         #region IEnumerable

@@ -373,6 +373,38 @@ namespace RockHouse.Collections.Tests.Dictionaries.Multi
         }
 
         [Fact]
+        public void Test__IMultiValuedMap_AddAll_with_keyValuePairs()
+        {
+            var col = NewInstance<string, int>();
+            col["a"].Add(1);
+
+            var actual1 = col.AddAll(new KeyValuePair<string, int>[]
+            {
+                new KeyValuePair<string, int>( "a", 2 ),
+                new KeyValuePair<string, int>( "a", 3 )
+            });
+            Assert.Equal(new int[] { 1, 2, 3 }, col["a"]);
+            Assert.True(actual1);
+            Assert.Equal(3, col.Count);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_AddAll_with_keyValuePairs_if_duplicateValues()
+        {
+            var col = NewInstance<string, int>();
+            col["a"].Add(1);
+
+            var actual1 = col.AddAll(new KeyValuePair<string, int>[]
+            {
+                new KeyValuePair<string, int>( "a", 1 ),
+                new KeyValuePair<string, int>( "a", 1 )
+            });
+            Assert.Equal(new int[] { 1 }, col["a"]);
+            Assert.True(actual1);
+            Assert.Single(col);
+        }
+
+        [Fact]
         public void Test__IMultiValuedMap_Delete()
         {
             var col = NewInstance<string, int>();
@@ -458,7 +490,7 @@ namespace RockHouse.Collections.Tests.Dictionaries.Multi
             var col = NewInstance<string, int>();
             col["a"].Add(1);
 
-            var actual1 = col.AddAll("a", new int[] { 2, 3 });
+            var actual1 = col.PutAll("a", new int[] { 2, 3 });
             Assert.Equal(new int[] { 1, 2, 3 }, col["a"]);
             Assert.True(actual1);
             Assert.Equal(3, col.Count);
@@ -470,8 +502,40 @@ namespace RockHouse.Collections.Tests.Dictionaries.Multi
             var col = NewInstance<string, int>();
             col["a"].Add(1);
 
-            var actual1 = col.AddAll("a", new int[] { 1, 1, 2 });
+            var actual1 = col.PutAll("a", new int[] { 1, 1, 2 });
             Assert.Equal(new int[] { 1, 2 }, col["a"]);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_PutAll_with_keyValuePairs()
+        {
+            var col = NewInstance<string, int>();
+            col["a"].Add(1);
+
+            var actual1 = col.PutAll(new KeyValuePair<string, int>[]
+            {
+                new KeyValuePair<string, int>( "a", 2 ),
+                new KeyValuePair<string, int>( "a", 3 )
+            });
+            Assert.Equal(new int[] { 1, 2, 3 }, col["a"]);
+            Assert.True(actual1);
+            Assert.Equal(3, col.Count);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_PutAll_with_keyValuePairs_if_duplicateValues()
+        {
+            var col = NewInstance<string, int>();
+            col["a"].Add(1);
+
+            var actual1 = col.PutAll(new KeyValuePair<string, int>[]
+            {
+                new KeyValuePair<string, int>( "a", 1 ),
+                new KeyValuePair<string, int>( "a", 1 )
+            });
+            Assert.Equal(new int[] { 1 }, col["a"]);
+            Assert.True(actual1);
+            Assert.Single(col);
         }
 
         [Fact]

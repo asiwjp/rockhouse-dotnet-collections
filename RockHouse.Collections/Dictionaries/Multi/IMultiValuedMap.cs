@@ -21,6 +21,13 @@ namespace RockHouse.Collections.Dictionaries.Multi
         bool AddAll(K key, IEnumerable<V> src);
 
         /// <summary>
+        /// Copy all elements into the collection.
+        /// The behavior of this method is the same as PutAll.
+        /// </summary>
+        /// <param name="src">The enumerable from which to copy.</param>
+        bool AddAll(IEnumerable<KeyValuePair<K, V>> src);
+
+        /// <summary>
         /// Removes the values associated with the specified key and returns the removed values.
         /// If key is not not found, nothing is done.
         /// </summary>
@@ -52,5 +59,12 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// <param name="key">Key associated with the src.</param>
         /// <param name="src">The enumerable from which to copy.</param>
         bool PutAll(K key, IEnumerable<V> src);
+
+        /// <summary>
+        /// Copy all elements into the collection.
+        /// The behavior of this method is the same as AddAll.
+        /// </summary>
+        /// <param name="src">The enumerable from which to copy.</param>
+        bool PutAll(IEnumerable<KeyValuePair<K, V>> src);
     }
 }

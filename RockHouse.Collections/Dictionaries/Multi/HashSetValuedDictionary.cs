@@ -63,7 +63,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// <param name="valueComparer">A comparer that compares values.</param>
         public HashSetValuedDictionary(int capacity, IEqualityComparer<K>? keyComparer, IEqualityComparer<V>? valueComparer) : base(capacity, keyComparer)
         {
-            this.ValueEqualityComparer = valueComparer;
+            this.ValueEqualityComparer = valueComparer ?? EqualityComparer<V>.Default;
         }
 
         /// <summary>
