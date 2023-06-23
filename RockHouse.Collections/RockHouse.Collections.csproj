@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Description>RockHouse.Collections is a Collection class package that mimics the Java language API. It also adds several proprietary APIs.</Description>
+		<Description>RockHouse.Collections is a Collection class package that mimics the Java language API and the Apache.Commons.CollectionsAPI. It also adds several proprietary APIs.</Description>
 		<Copyright>Copyright 2023 Akira Saito</Copyright>
 		<Authors>Akira Saito</Authors>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
