@@ -31,10 +31,10 @@ if (map.IsEmpty)
 
 var get1 = map.Get("a"); // get1 is null
 
-var put1 = map.Put("a", 1); // put1 is null
+var put1 = map.Put("a", "1"); // put1 is null
 var get2 = map.Get("a"); // get2 is 1
 
-var put2 = map.Put("a", 2); // put2 is 1
+var put2 = map.Put("a", "2"); // put2 is 1
 var get3 = map.Get("a"); // get3 is 2
 ```
 
