@@ -7,7 +7,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<VersionPrefix>0.6.0</VersionPrefix>
-		<TargetFrameworks>net48;netcoreapp3.1;net5.0</TargetFrameworks>
+		<TargetFrameworks>net48;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<LangVersion>9.0</LangVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -31,6 +31,9 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" Condition="'$(TargetFramework)' == 'net48'" />
 		<PackageReference Include="System.Text.Json" Version="4.6.0" Condition="'$(TargetFramework)' == 'net48'" />
+		
+		<PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
+		<PackageReference Include="System.Text.Json" Version="4.6.0" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
 	</ItemGroup>
 
 </Project>
