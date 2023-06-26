@@ -18,6 +18,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// </summary>
         /// <param name="key">Key associated with the src.</param>
         /// <param name="src">The enumerable from which to copy.</param>
+        /// <returns>True if it can be added, false otherwise.</returns>
         bool AddAll(K key, IEnumerable<V> src);
 
         /// <summary>
@@ -25,6 +26,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// The behavior of this method is the same as PutAll.
         /// </summary>
         /// <param name="src">The enumerable from which to copy.</param>
+        /// <returns>True if it can be added, false otherwise.</returns>
         bool AddAll(IEnumerable<KeyValuePair<K, V>> src);
 
         /// <summary>
@@ -58,6 +60,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// </summary>
         /// <param name="key">Key associated with the src.</param>
         /// <param name="src">The enumerable from which to copy.</param>
+        /// <returns>True if it can be added, false otherwise.</returns>
         bool PutAll(K key, IEnumerable<V> src);
 
         /// <summary>
@@ -65,6 +68,7 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// The behavior of this method is the same as AddAll.
         /// </summary>
         /// <param name="src">The enumerable from which to copy.</param>
+        /// <returns>True if it can be added, false otherwise.</returns>
         bool PutAll(IEnumerable<KeyValuePair<K, V>> src);
     }
 }
