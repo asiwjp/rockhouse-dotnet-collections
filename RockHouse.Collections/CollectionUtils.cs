@@ -20,7 +20,7 @@ namespace RockHouse.Collections
         }
 
         /// <summary>
-        /// Determines if the Collection is empty or not.
+        /// Determines if the collection is empty or not.
         /// This method is null-safe.
         /// </summary>
         /// <param name="collection">An instance of a collection. Or null.</param>
@@ -31,7 +31,7 @@ namespace RockHouse.Collections
         }
 
         /// <summary>
-        /// Determines if the Collection is empty or not.
+        /// Determines if the collection is empty or not.
         /// This method is null-safe.
         /// </summary>
         /// <param name="collection">An instance of a collection. Or null.</param>
