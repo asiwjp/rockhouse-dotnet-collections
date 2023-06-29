@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using RockHouse.Collections;
+using System.Collections.Generic;
 using Xunit;
 
-namespace RockHouse.Collections.Tests
+namespace Tests
 {
     public class CollectionUtilsTest
     {

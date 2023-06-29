@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.ReferenceHolders
+namespace Tests.ReferenceHolders
 {
     public class HardReferenceHolderTest : TestBase
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Dictionaries
+namespace Tests.Dictionaries
 {
     public abstract class AbstractDictionaryTestBase
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace RockHouse.Collections.Tests.Dictionaries.Multi
+namespace Tests.Dictionaries.Multi
 {
     public class ListValuedDictionaryTest : AbstractListValuedDictionaryTestBase
     {

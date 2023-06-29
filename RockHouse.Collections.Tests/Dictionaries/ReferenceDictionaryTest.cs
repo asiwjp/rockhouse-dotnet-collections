@@ -1,4 +1,5 @@
-﻿using RockHouse.Collections.Dictionaries;
+﻿using RockHouse.Collections;
+using RockHouse.Collections.Dictionaries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Dictionaries
+namespace Tests.Dictionaries
 {
     public class ReferenceDictionaryTest : AbstractReferenceDictionaryTestBase
     {

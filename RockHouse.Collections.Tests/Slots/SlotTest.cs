@@ -1,7 +1,7 @@
 ﻿using RockHouse.Collections.Slots;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Slots
+namespace Tests.Slots
 {
     public class SlotTest
     {

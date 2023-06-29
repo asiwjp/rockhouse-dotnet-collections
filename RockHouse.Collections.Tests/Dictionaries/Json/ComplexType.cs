@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace RockHouse.Collections.Tests.Dictionaries.Json
+namespace Tests.Dictionaries.Json
 {
 #if !NET5_0_OR_GREATER
     [JsonConverter(typeof(ComplexTypeJsonConverter))]

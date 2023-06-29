@@ -1,8 +1,9 @@
-﻿using System;
+﻿using RockHouse.Collections;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace RockHouse.Collections.Tests
+namespace Tests
 {
     public class DictionaryUtilsTest
     {

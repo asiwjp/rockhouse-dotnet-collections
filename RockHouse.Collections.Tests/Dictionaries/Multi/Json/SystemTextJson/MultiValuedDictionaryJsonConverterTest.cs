@@ -1,11 +1,11 @@
 ﻿using RockHouse.Collections.Dictionaries.Multi;
-using RockHouse.Collections.Tests.Dictionaries.Json;
+using Tests.Dictionaries.Json;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Dictionaries.Multi.Json.SystemTextJson
+namespace Tests.Dictionaries.Multi.Json.SystemTextJson
 {
     public partial class MultiValuedDictionaryJsonConverterTest : TestBase
     {

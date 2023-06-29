@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace RockHouse.Collections.Tests.Sets
+namespace Tests.Sets
 {
     public class ListOrderedSetTest : AbstractOrderedSetTestBase
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Sets
+namespace Tests.Sets
 {
     public class InternalEqualityComparerTest
     {

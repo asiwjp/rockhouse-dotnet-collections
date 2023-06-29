@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Dictionaries.Json.SystemTextJson
+namespace Tests.Dictionaries.Json.SystemTextJson
 {
     public class DictionaryJsonConverterFactoryTest
     {

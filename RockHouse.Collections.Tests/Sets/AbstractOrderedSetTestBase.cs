@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Sets
+namespace Tests.Sets
 {
     public abstract class AbstractOrderedSetTestBase
     {

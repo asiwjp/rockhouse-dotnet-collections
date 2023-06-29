@@ -2,7 +2,7 @@ using RockHouse.Collections.Dictionaries;
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace RockHouse.Collections.Tests.Dictionaries
+namespace Tests.Dictionaries
 {
     public class HashMapTest : AbstractDictionaryTestBase
     {

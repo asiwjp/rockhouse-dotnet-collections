@@ -2,7 +2,7 @@ using RockHouse.Collections.Slots;
 using System;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Slots
+namespace Tests.Slots
 {
     public class InternalSlotUtilsTest
     {

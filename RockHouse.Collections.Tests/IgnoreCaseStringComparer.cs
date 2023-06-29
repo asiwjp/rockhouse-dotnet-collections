@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace RockHouse.Collections.Tests
+namespace Tests
 {
     public class IgnoreCaseStringComparer : IEqualityComparer, IEqualityComparer<string>
     {

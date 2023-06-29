@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using Xunit;
 
-namespace RockHouse.Collections.Tests
+namespace Tests
 {
     public class TestBase
     {

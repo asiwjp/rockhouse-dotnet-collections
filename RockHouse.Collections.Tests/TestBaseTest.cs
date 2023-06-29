@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Xunit;
 
-namespace RockHouse.Collections.Tests
+namespace Tests
 {
     public class TestBaseTest : TestBase
     {

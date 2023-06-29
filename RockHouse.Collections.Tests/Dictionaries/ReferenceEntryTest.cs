@@ -1,9 +1,10 @@
-﻿using RockHouse.Collections.Dictionaries;
+﻿using RockHouse.Collections;
+using RockHouse.Collections.Dictionaries;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Dictionaries
+namespace Tests.Dictionaries
 {
     public class ReferenceEntryTest : TestBase
     {

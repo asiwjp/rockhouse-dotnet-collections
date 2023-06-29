@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using Xunit;
 
-namespace RockHouse.Collections.Tests.Dictionaries.Multi
+namespace Tests.Dictionaries.Multi
 {
     public class HashSetValuedDictionaryTest : AbstractSetValuedDictionaryTestBase
     {

@@ -1,4 +1,4 @@
-﻿namespace RockHouse.Collections.Tests
+﻿namespace Tests
 {
     struct TestStruct
     {
