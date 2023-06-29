@@ -79,6 +79,56 @@ namespace RockHouse.Collections.Tests
         }
 
         [Fact]
+        public void Test_DefaultIfNull__with_defaultValue()
+        {
+            List<int> col = null;
+
+            var actual = ListUtils.DefaultIfNull(col, new List<int> { 0 });
+            Assert.Contains(0, actual);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_empty()
+        {
+            var col = new List<int>
+            {
+            };
+
+            var actual = ListUtils.DefaultIfNull(col, () => new List<int> { 0 });
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_factory_is_null()
+        {
+            List<int> col = null;
+
+            Assert.Throws<ArgumentNullException>(() => ListUtils.DefaultIfNull(col, null as Func<IList<int>>));
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_null()
+        {
+            List<int> col = null;
+
+            var actual = ListUtils.DefaultIfNull(col, () => new List<int> { 0 });
+            Assert.Contains(0, actual);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_notEmpty()
+        {
+            var col = new List<int>
+            {
+                1
+            };
+
+            var actual = ListUtils.DefaultIfNull(col, () => new List<int> { 0 });
+            Assert.Contains(1, actual);
+            Assert.DoesNotContain(0, actual);
+        }
+
+        [Fact]
         public void Test_EmptyIfNull()
         {
             var col = new List<int>

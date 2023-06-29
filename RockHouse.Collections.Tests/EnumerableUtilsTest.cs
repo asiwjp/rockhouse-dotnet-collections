@@ -47,7 +47,7 @@ namespace RockHouse.Collections.Tests
         }
 
         [Fact]
-        public void Test_DefaultIfEmpty()
+        public void Test_DefaultIfEmpty_if_empty()
         {
             var col = new List<int>
             {
@@ -83,6 +83,55 @@ namespace RockHouse.Collections.Tests
             };
 
             var actual = EnumerableUtils.DefaultIfEmpty(col, () => new int[] { 0 });
+            Assert.Equal(new int[] { 1 }, actual);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull__with_defaultValue()
+        {
+            List<int> col = null;
+
+            var actual = EnumerableUtils.DefaultIfNull(col, new int[] { 0 });
+            Assert.Equal(new int[] { 0 }, actual);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_empty()
+        {
+            var col = new List<int>
+            {
+            };
+
+            var actual = EnumerableUtils.DefaultIfNull(col, () => new int[] { 0 });
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_factory_is_null()
+        {
+            List<int> col = null;
+
+            Assert.Throws<ArgumentNullException>(() => EnumerableUtils.DefaultIfNull(col, null as Func<IEnumerable<int>>));
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_null()
+        {
+            List<int> col = null;
+
+            var actual = EnumerableUtils.DefaultIfNull(col, () => new int[] { 0 });
+            Assert.Equal(new int[] { 0 }, actual);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_notEmpty()
+        {
+            var col = new List<int>
+            {
+                1
+            };
+
+            var actual = EnumerableUtils.DefaultIfNull(col, () => new int[] { 0 });
             Assert.Equal(new int[] { 1 }, actual);
         }
 

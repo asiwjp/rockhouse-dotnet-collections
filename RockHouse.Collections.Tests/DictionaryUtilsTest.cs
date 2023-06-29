@@ -82,6 +82,58 @@ namespace RockHouse.Collections.Tests
         }
 
         [Fact]
+        public void Test_DefaultIfNull__with_defaultValue()
+        {
+            Dictionary<int, int> col = null;
+
+            var actual = DictionaryUtils.DefaultIfNull(col, new Dictionary<int, int> { { 0, 0 } });
+            Assert.Single(actual);
+            Assert.Equal(0, actual[0]);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_empty()
+        {
+            var col = new Dictionary<int, int>
+            {
+            };
+
+            var actual = DictionaryUtils.DefaultIfNull(col, () => new Dictionary<int, int> { { 0, 0 } });
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_factory_is_null()
+        {
+            Dictionary<int, int> col = null;
+
+            Assert.Throws<ArgumentNullException>(() => DictionaryUtils.DefaultIfNull(col, null as Func<IDictionary<int, int>>));
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_null()
+        {
+            Dictionary<int, int> col = null;
+
+            var actual = DictionaryUtils.DefaultIfNull(col, () => new Dictionary<int, int> { { 0, 0 } });
+            Assert.Single(actual);
+            Assert.Equal(0, actual[0]);
+        }
+
+        [Fact]
+        public void Test_DefaultIfNull_if_notEmpty()
+        {
+            var col = new Dictionary<int, int>
+            {
+                { 1, 1 }
+            };
+
+            var actual = DictionaryUtils.DefaultIfNull(col, () => new Dictionary<int, int> { { 0, 0 } });
+            Assert.Single(actual);
+            Assert.Equal(1, actual[1]);
+        }
+
+        [Fact]
         public void Test_EmptyIfNull()
         {
             var col = new Dictionary<int, int>
