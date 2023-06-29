@@ -12,7 +12,7 @@ namespace RockHouse.Collections
     {
         /// <summary>
         /// Get the number of elements in the enumerable.
-        /// It differs from Linq's Count() in that it tolerates null.
+        /// This method is null-safe.
         /// </summary>
         /// <param name="enumerable">An instance of a enumerable. Or null.</param>
         /// <returns>The number of elements in the enumerable, 0 if null.</returns>
@@ -75,6 +75,7 @@ namespace RockHouse.Collections
             {
                 return factory();
             }
+
             return enumerable;
         }
 
@@ -83,7 +84,7 @@ namespace RockHouse.Collections
         /// </summary>
         /// <typeparam name="T">The type of elements.</typeparam>
         /// <param name="enumerable">Target to determine if it is null or not.</param>
-        /// <returns>If the specified enumerable is NULL, an empty IEnumerable is returned. Otherwise, the specified enumerable are returned as is.</returns>
+        /// <returns>If the specified enumerable is null, an empty Enumerable is returned. Otherwise, the specified enumerable are returned as is.</returns>
         public static IEnumerable<T> EmptyIfNull<T>(IEnumerable<T>? enumerable)
         {
             if (enumerable == null)
@@ -95,7 +96,7 @@ namespace RockHouse.Collections
 
         /// <summary>
         /// Determines if the enumerable is empty or not.
-        /// It differs from Linq's Any() in that it tolerates null.
+        /// This method is null-safe.
         /// </summary>
         /// <param name="enumerable">An instance of a enumerable. Or null.</param>
         /// <returns>True if the enumerable is null or the number of elements in the enumerable is zero. otherwise False.</returns>
@@ -116,6 +117,7 @@ namespace RockHouse.Collections
 
         /// <summary>
         /// Determines if the enumerable is empty or not.
+        /// This method is null-safe.
         /// </summary>
         /// <param name="enumerable">An instance of a enumerable. Or null.</param>
         /// <returns>True if the number of elements in the enumerable is non-zero, false if the number of elements is zero or the enumerable is null.</returns>
