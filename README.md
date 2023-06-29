@@ -5,6 +5,11 @@ RockHouse.Collections is a Collection class package that mimics the Java languag
 It also adds several proprietary APIs.
 
 The following is an example of a class.
+- CollectionUtils
+- DictionaryUtils
+- EnumerableUtils
+- ListUtils
+- SetUtils
 - Dictionaries.HashMap
 - Dictionaries.LinkedHashMap
 - Dictionaries.LinkedOrderedDictionary
