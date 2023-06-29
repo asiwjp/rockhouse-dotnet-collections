@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace RockHouse.Collections
@@ -18,17 +19,6 @@ namespace RockHouse.Collections
         public static int Count<T>(IList<T>? list)
         {
             return list?.Count ?? 0;
-        }
-
-        /// <summary>
-        /// Returns an empty list if the specified list is null or empty.
-        /// </summary>
-        /// <typeparam name="T">The type of elements.</typeparam>
-        /// <param name="list">Target to determine if it is null or not.</param>
-        /// <returns>If the specified list is null or empty, empty List is returned. Otherwise, the original list is returned as is.</returns>
-        public static IList<T> DefaultIfEmpty<T>(IList<T>? list)
-        {
-            return DefaultIfEmpty(list, () => new List<T>());
         }
 
         /// <summary>

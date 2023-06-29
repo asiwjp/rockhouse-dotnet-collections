@@ -23,18 +23,6 @@ namespace RockHouse.Collections
         }
 
         /// <summary>
-        /// Returns an empty dictionary if the specified dictionary is null or empty.
-        /// </summary>
-        /// <typeparam name="K">The type of keys.</typeparam>
-        /// <typeparam name="V">The type of values.</typeparam>
-        /// <param name="dictionary">Target to determine if it is null or not.</param>
-        /// <returns>If the specified dictionary is null or empty, empty Dictionary is returned. Otherwise, the original dictionary is returned as is.</returns>
-        public static IDictionary<K, V> DefaultIfEmpty<K, V>(IDictionary<K, V>? dictionary)
-        {
-            return DefaultIfEmpty(dictionary, () => new Dictionary<K, V>());
-        }
-
-        /// <summary>
         /// Returns an default dictionary if the specified dictionary is null or empty.
         /// </summary>
         /// <typeparam name="K">The type of keys.</typeparam>

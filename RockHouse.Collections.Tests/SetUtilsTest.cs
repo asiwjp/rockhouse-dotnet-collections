@@ -27,15 +27,6 @@ namespace RockHouse.Collections.Tests
         }
 
         [Fact]
-        public void Test_DefaultIfEmpty__noargs()
-        {
-            HashSet<int> col = null;
-
-            var actual = SetUtils.DefaultIfEmpty(col);
-            Assert.Empty(actual);
-        }
-
-        [Fact]
         public void Test_DefaultIfEmpty__with_defaultValue()
         {
             var col = new HashSet<int>

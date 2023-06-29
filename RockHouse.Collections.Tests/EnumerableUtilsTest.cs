@@ -36,15 +36,6 @@ namespace RockHouse.Collections.Tests
         }
 
         [Fact]
-        public void Test_DefaultIfEmpty__noargs()
-        {
-            List<int> col = null;
-
-            var actual = EnumerableUtils.DefaultIfEmpty(col);
-            Assert.Empty(actual);
-        }
-
-        [Fact]
         public void Test_DefaultIfEmpty__with_defaultValue()
         {
             var col = new List<int>

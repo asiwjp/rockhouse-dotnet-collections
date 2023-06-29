@@ -35,17 +35,6 @@ namespace RockHouse.Collections
         }
 
         /// <summary>
-        /// Returns an empty enumerable if the specified enumerable is null or empty.
-        /// </summary>
-        /// <typeparam name="T">The type of elements.</typeparam>
-        /// <param name="enumerable">Target to determine if it is null or not.</param>
-        /// <returns>If the specified enumerable is null or empty, empty IEnumerable is returned. Otherwise, the original enumerable is returned as is.</returns>
-        public static IEnumerable<T> DefaultIfEmpty<T>(IEnumerable<T>? enumerable)
-        {
-            return DefaultIfEmpty(enumerable, () => Enumerable.Empty<T>());
-        }
-
-        /// <summary>
         /// Returns an default enumerable if the specified enumerable is null or empty.
         /// </summary>
         /// <typeparam name="T">The type of elements.</typeparam>

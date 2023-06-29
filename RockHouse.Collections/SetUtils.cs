@@ -21,17 +21,6 @@ namespace RockHouse.Collections
         }
 
         /// <summary>
-        /// Returns an empty set if the specified set is null or empty.
-        /// </summary>
-        /// <typeparam name="T">The type of elements.</typeparam>
-        /// <param name="set">Target to determine if it is null or not.</param>
-        /// <returns>If the specified set is null or empty, empty HashSet is returned. Otherwise, the original set is returned as is.</returns>
-        public static ISet<T> DefaultIfEmpty<T>(ISet<T>? set)
-        {
-            return DefaultIfEmpty(set, () => new HashSet<T>());
-        }
-
-        /// <summary>
         /// Returns an default set if the specified set is null or empty.
         /// </summary>
         /// <typeparam name="T">The type of elements.</typeparam>
