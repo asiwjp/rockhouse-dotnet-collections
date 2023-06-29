@@ -6,7 +6,7 @@
 		<Authors>Akira Saito</Authors>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<VersionPrefix>0.7.0</VersionPrefix>
+		<VersionPrefix>0.8.0</VersionPrefix>
 		<TargetFrameworks>net48;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<LangVersion>9.0</LangVersion>
