@@ -36,7 +36,16 @@ namespace RockHouse.Collections.Tests
         }
 
         [Fact]
-        public void Test_DefaultIfEmpty_with_defaultValue()
+        public void Test_DefaultIfEmpty__noargs()
+        {
+            List<int> col = null;
+
+            var actual = EnumerableUtils.DefaultIfEmpty(col);
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public void Test_DefaultIfEmpty__with_defaultValue()
         {
             var col = new List<int>
             {
@@ -84,15 +93,6 @@ namespace RockHouse.Collections.Tests
 
             var actual = EnumerableUtils.DefaultIfEmpty(col, () => new int[] { 0 });
             Assert.Equal(new int[] { 1 }, actual);
-        }
-
-        [Fact]
-        public void Test_DefaultIfEmpty_without_factory()
-        {
-            List<int> col = null;
-
-            var actual = EnumerableUtils.DefaultIfEmpty(col);
-            Assert.Empty(actual);
         }
 
         [Fact]
