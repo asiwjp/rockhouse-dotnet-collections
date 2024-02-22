@@ -615,6 +615,37 @@ namespace Tests.Dictionaries
         }
 
         [Fact]
+        public void Test__IHashMap_Replace()
+        {
+            var col = NewInstance<string, string>();
+            col.Add("a", "");
+
+            var actual_old = col.Replace("a", "1");
+            Assert.Equal("1", col["a"]);
+            Assert.Equal("", actual_old);
+        }
+
+        [Fact]
+        public void Test__IHashMap_Replace_if_notfound()
+        {
+            var col = NewInstance<string, string>();
+
+            var actual_old = col.Replace("a", "1");
+            Assert.False(col.ContainsKey("a"));
+            Assert.Null(actual_old);
+        }
+
+        [Fact]
+        public void Test__IHashMap_Replace_if_notfound_primive()
+        {
+            var col = NewInstance();
+
+            int actual_old = col.Replace("a", 1);
+            Assert.False(col.ContainsKey("a"));
+            Assert.Equal(0, actual_old);
+        }
+
+        [Fact]
         public void Test__Object_ToString()
         {
             var col = NewInstance();

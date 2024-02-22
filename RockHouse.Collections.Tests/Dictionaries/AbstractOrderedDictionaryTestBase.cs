@@ -106,6 +106,19 @@ namespace Tests.Dictionaries
         }
 
         [Fact]
+        public void Test__IHashMap_Replace_order()
+        {
+            var col = NewOrderedInstance<string, int>();
+
+            col.Put("b", 1);
+            col.Put("a", 2);
+            col.Replace("b", 3);
+
+            Assert.Equal("b", col.FirstKey);
+            Assert.Equal("a", col.LastKey);
+        }
+
+        [Fact]
         public void Test__IOrdered_prop_FirstKey_if_empty()
         {
             var col = NewOrderedInstance<string, int>();

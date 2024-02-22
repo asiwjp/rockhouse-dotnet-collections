@@ -296,6 +296,19 @@ namespace RockHouse.Collections.Dictionaries.Multi
 
         /// <inheritdoc/>
         public bool PutAll(IEnumerable<KeyValuePair<K, V>> src) => this.AddAll(src);
+
+        /// <inheritdoc/>
+        public ICollection<V> Replace(K key, IEnumerable<V> src)
+        {
+            if (!this.ContainsKey(key))
+            {
+                return this.CreateValues();
+            }
+
+            C old = this.Delete(key);
+            this.AddAll(key, src);
+            return old;
+        }
         #endregion
 
         #region IEnumerable

@@ -90,6 +90,16 @@ namespace RockHouse.Collections.Dictionaries
         }
 
         /// <inheritdoc/>
+        public virtual V Replace(K key, V value)
+        {
+            if (this.TryGetValue(key, out var oldValue))
+            {
+                this.Update(key, value);
+            }
+            return oldValue;
+        }
+
+        /// <inheritdoc/>
         protected abstract bool Update(K key, V value);
 
         #region ICollection

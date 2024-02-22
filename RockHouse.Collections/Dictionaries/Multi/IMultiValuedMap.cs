@@ -70,5 +70,14 @@ namespace RockHouse.Collections.Dictionaries.Multi
         /// <param name="src">The enumerable from which to copy.</param>
         /// <returns>True if it can be added, false otherwise.</returns>
         bool PutAll(IEnumerable<KeyValuePair<K, V>> src);
+
+        /// <summary>
+        /// Replace the values associated with the specified key and returns the old values.
+        /// If key is not not found, nothing is done.
+        /// </summary>
+        /// <param name="key">Key associated with the src.</param>
+        /// <param name="src">Values associated with the specified key.</param>
+        /// <returns>The old values associated with the key is returned. If the key is not found, an empty collection is returned.</returns>
+        ICollection<V> Replace(K key, IEnumerable<V> src);
     }
 }

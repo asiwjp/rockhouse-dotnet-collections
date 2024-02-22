@@ -55,5 +55,14 @@ namespace RockHouse.Collections.Dictionaries
         /// <param name="ifFound">A callback function that is called if the key is found. The function is passed a key and an old value, and the return value is used as an alternative to the method return value.</param>
         /// <returns>The old value associated with the key is returned. If the key is not found, default(V). In either case, if a callback function is specified, it will be replaced by its return value.</returns>
         public V Delete(K key, Func<K, V> ifNotFound = null, Func<K, V, V> ifFound = null);
+
+        /// <summary>
+        /// Replace the value associated with the specified key and returns the old value.
+        /// If key is not not found, nothing is done.
+        /// </summary>
+        /// <param name="key">Key associated with the value.</param>
+        /// <param name="value">Value associated with the specified key.</param>
+        /// <returns>The old value associated with the key is returned. If the key is not found, a default(V) is returned.</returns>
+        public V Replace(K key, V value);
     }
 }

@@ -539,6 +539,49 @@ namespace Tests.Dictionaries.Multi
         }
 
         [Fact]
+        public void Test__IMultiValuedMap_Replace()
+        {
+            var col = NewInstance<string, int>();
+            col.AddAll("a", new int[] { 1, 2, 3 });
+
+            col.Replace("a", new int[] { 11, 12, 13 });
+
+            Assert.Equal(new int[] { 11, 12, 13 }, col["a"]);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_Replace__if_notFound()
+        {
+            var col = NewInstance<string, int>();
+
+            col.Replace("a", new int[] { 1 });
+
+            Assert.False(col.ContainsKey("a"));
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_Replace__if_emptySrc()
+        {
+            var col = NewInstance<string, int>();
+            col.AddAll("a", new int[] { 1, 2, 3 });
+
+            col.Replace("a", new int[0]);
+
+            Assert.Equal(new int[0], col["a"]);
+        }
+
+        [Fact]
+        public void Test__IMultiValuedMap_Replace__if_duplicateValues()
+        {
+            var col = NewInstance<string, int>();
+            col.AddAll("a", new int[] { 1, 2 });
+
+            col.Replace("a", new int[] { 1, 1 });
+
+            Assert.Equal(new int[] { 1 }, col["a"]);
+        }
+
+        [Fact]
         public void Test__Object_ToString()
         {
             var col = NewInstance<string, int>();
