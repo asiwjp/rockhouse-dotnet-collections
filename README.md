@@ -49,6 +49,16 @@ var get3 = map.Get("a"); // get3 is 2
 >Since null is not allowed in primitive types, the API that returns null substitutes default(V).
 >For example, default(int) is 0.
 
+Utilities similar to functions in common scripting languages such as Perl, Ruby, Python, etc.
+-------
+```
+var list = new List<int>();
+ListUtils.Push(list, 1, 2);
+var tail = ListUtils.Pop(list); // tail is 2
+ListUtils.Unshift(list, 0);
+var head = ListUtils.Shift(list); // head is 0
+```
+
 Compatibility with .NET API
 -------
 ### Collection initializer
