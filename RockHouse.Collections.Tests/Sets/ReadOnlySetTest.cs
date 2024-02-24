@@ -12,20 +12,6 @@ namespace Tests.Sets
         public ReadOnlySet<T> NewInstance<T>(ISet<T> src) => new ReadOnlySet<T>(src);
 
         [Fact]
-        public void Test__withStruct()
-        {
-            var col = NewInstance<TestStruct>();
-            col.Add(new TestStruct(1));
-            Assert.False(col.Add(new TestStruct(1)));
-            Assert.True(col.Add(new TestStruct(2)));
-
-            Assert.Contains(new TestStruct(1), col);
-
-            Assert.True(col.Remove(new TestStruct(1)));
-            Assert.Single(col);
-        }
-
-        [Fact]
         public void Test___ctor()
         {
             var col = NewInstance<string>();

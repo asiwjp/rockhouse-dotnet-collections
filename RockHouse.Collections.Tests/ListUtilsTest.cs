@@ -276,7 +276,7 @@ namespace Tests
         public void Test_PopOrDefault__if_invalid_index()
         {
             var col = new List<int>();
-            Assert.Throws<ArgumentNullException>(() => ListUtils.PopOrDefault(col, index: -2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ListUtils.PopOrDefault(col, index: -2));
         }
 
         [Fact]
