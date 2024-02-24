@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RockHouse.Collections
 {
@@ -124,6 +125,142 @@ namespace RockHouse.Collections
         public static bool IsNotEmpty<T>(IList<T>? list)
         {
             return Count(list) != 0;
+        }
+
+        /// <summary>
+        /// Removes and returns the element at the specified index from the list.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="list">An instance of a list.</param>
+        /// <param name="index">Index of the element to be removed. If -1 is specified, the last element is removed.</param>
+        /// <returns>Value of the element removed.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">index is less than -1.</exception>
+        /// <exception cref="InvalidOperationException">If the list is empty.</exception>
+        public static T Pop<T>(IList<T> list, int index = -1)
+        {
+            if (list.Count == 0)
+            {
+                throw new InvalidOperationException("list is empty.");
+            }
+            if (index < -1 || index >= list.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            if (index == -1)
+            {
+                index = list.Count - 1;
+            }
+            var popped = list[index];
+            list.RemoveAt(index);
+            return popped;
+        }
+
+        /// <summary>
+        /// Removes and returns the element at the specified index from the list.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="list">An instance of a list.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="index">Index of the element to be removed. If -1 is specified, the last element is removed.</param>
+        /// <returns>Returns the value of the element indicated by index. If the list is empty or index indicates after the last element in the list, defaultValue is returned.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">index is less than -1.</exception>
+        public static T PopOrDefault<T>(IList<T> list, T defaultValue = default, int index = -1)
+        {
+            return PopOrDefault(list, () => defaultValue, index);
+        }
+
+        /// <summary>
+        /// Removes and returns the element at the specified index from the list.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="list">An instance of a list.</param>
+        /// <param name="index">Index of the element to be removed. If -1 is specified, the last element is removed.</param>
+        /// <param name="defaultValueFactory">Factory function to generate default values.</param>
+        /// <returns>Returns the value of the element indicated by index. If the list is empty or index indicates after the last element in the list, defaultValue is returned.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">index is less than -1.</exception>
+        public static T PopOrDefault<T>(IList<T> list, Func<T> defaultValueFactory, int index = -1)
+        {
+            if (defaultValueFactory == null)
+            {
+                throw new ArgumentNullException(nameof(defaultValueFactory));
+            }
+            if (index < -1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            if (index == -1)
+            {
+                index = list.Count - 1;
+            }
+            if (list.Count == 0 || index >= list.Count)
+            {
+                return defaultValueFactory();
+            }
+            return Pop(list, index);
+        }
+
+        /// <summary>
+        /// Adds a value to the end of the list.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="list">An instance of a list.</param>
+        /// <param name="values">Value to be added.</param>
+        public static void Push<T>(IList<T> list, params T[] values)
+        {
+            foreach (var item in values)
+            {
+                list.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// It shifts each element of the list forward one by one and returns the first element pushed out.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="list">An instance of a list.</param>
+        /// <returns>The value of the first element is returned.</returns>
+        /// <exception cref="InvalidOperationException">If the list is empty.</exception>
+        public static T Shift<T>(IList<T> list)
+        {
+            return Pop(list, 0);
+        }
+
+        /// <summary>
+        /// It shifts each element of the list forward one by one and returns the first element pushed out.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="list">An instance of a list.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The value of the first element is returned. If the list is empty, defaultValue is returned.</returns>
+        public static T ShiftOrDefault<T>(IList<T> list, T defaultValue = default)
+        {
+            return PopOrDefault(list, () => defaultValue, 0);
+        }
+
+        /// <summary>
+        /// It shifts each element of the list forward one by one and returns the first element pushed out.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="list">An instance of a list.</param>
+        /// <param name="defaultValueFactory">Factory function to generate default value.</param>
+        /// <returns>The value of the first element is returned. If the list is empty, defaultValue is returned.</returns>
+        public static T ShiftOrDefault<T>(IList<T> list, Func<T> defaultValueFactory)
+        {
+            return PopOrDefault(list, defaultValueFactory, 0);
+        }
+
+        /// <summary>
+        /// Adds a value to the beginning of the list.
+        /// </summary>
+        /// <typeparam name="T">The type of elements.</typeparam>
+        /// <param name="list">An instance of a list.</param>
+        /// <param name="values">Value to be added.</param>
+        public static void Unshift<T>(IList<T> list, params T[] values)
+        {
+            foreach (var value in values.Reverse())
+            {
+                list.Insert(0, value);
+            }
         }
     }
 }
